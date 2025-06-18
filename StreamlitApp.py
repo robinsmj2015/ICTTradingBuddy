@@ -1,3 +1,6 @@
+# https://icttradingbuddy.onrender.com
+# https://dashboard.render.com/web/srv-d190thvdiees73ad5gbg/deploys/dep-d192aa3uibrs73boejjg
+
 import streamlit as st
 import pandas as pd
 
