@@ -17,7 +17,6 @@ Dependencies:
 # https://dashboard.render.com/web/srv-d190thvdiees73ad5gbg/deploys/dep-d192aa3uibrs73boejjg
 
 import streamlit as st
-import pandas as pd
 from Processor import process_symbol
 from Setup import buddies
 import time

@@ -1,5 +1,4 @@
 from InnerCircleTradingUtils import InnerCircleTradingUtils
-import pandas as pd
 
 class Strategy:
     """

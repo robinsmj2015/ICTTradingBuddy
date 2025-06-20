@@ -15,8 +15,9 @@ import streamlit as st
 
 
 class Plotter:
-    def __init__(self):
+    def __init__(self, symbol):
         self.buddy = None
+        self.symbol = symbol
 
     # ============ Helper Functions ============
     @staticmethod

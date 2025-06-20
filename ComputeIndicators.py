@@ -79,32 +79,18 @@ def compute_indicators(df: pd.DataFrame, data_gather_time: int) -> pd.DataFrame:
     return df
 
 
-def _get_inds_(candle: dict, pivots: dict, symbol: str = "MNQ1!") -> int:
+def _get_inds_(candle: dict) -> int:
     """
     Computes a score based on technical indicators and pivot levels for a given candle.
 
     Args:
         candle (dict): Dictionary of indicator values from a candle row.
-        pivots (dict): Nested dictionary of pivot levels by symbol → level → method.
         symbol (str): Symbol name to look up in the pivot table. Default is "MNQ1!".
 
     Returns:
         int: A signal score between -10 (strong short) and +10 (strong long).
     """
     score = 0
-
-    # Pivot proximity scoring
-    if pivots and symbol in pivots:
-        levels = {"R3", "R2", "R1", "P", "S1", "S2", "S3"}
-        labels = ["Classic", "Fibonacci", "Camarilla", "Woodie"]
-        for lev in levels:
-            for lab in labels:
-                try:
-                    level_price = pivots[symbol][lev][lab]
-                    if abs(candle["close"] - level_price) <= 10:
-                        score += 0.5 if "S" in lev else -0.5 if "R" in lev else 0
-                except:
-                    continue
 
     # RSI
     rsi = candle.get("rsi_14", 50)

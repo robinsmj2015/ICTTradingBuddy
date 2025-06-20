@@ -276,19 +276,18 @@ class StratICT(Strategy):
         else:
             return 300
         
-    def get_inds(self, candle, pivots, symbol="MNQ1!") -> int:
+    def get_inds(self, candle) -> int:
         """
         Computes indicator-based confidence score.
         
         Args:
             candle (dict): Latest candle.
-            pivots (dict): Pivot levels.
-            symbol (str): Symbol for context (default: MNQ1!).
+            symbol (str): Symbol for context (default: test).
         
         Returns:
             int: Score between -10 and +10.
         """
         
-        return _get_inds_(candle, pivots, symbol)   
+        return _get_inds_(candle)   
 
     
