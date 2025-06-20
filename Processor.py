@@ -30,9 +30,9 @@ def process_symbol(buddy):
         candle.add_tick(buddy.last_tick)
 
     # Start plotter if not already started and enough data exists
-    if not buddy.plotter.is_plotting:
+    
         if len(buddy.candles[1].trackers[0].df) >= buddy.data_gather_time:
-            buddy.plotter.is_plotting = True
+            buddy.plotter.render_all()
             
    
 

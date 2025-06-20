@@ -65,7 +65,6 @@ for b in buddies.values():
     b.buff.buddy = b
     b.plotter.buddy = b
     b.trader.buddy = b
-    b.viz.buddy = b
     for candle in b.candles.values():
         if isinstance(candle, OffsetCandleManager):
             candle.set_buddy(b)
