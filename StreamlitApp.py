@@ -23,9 +23,6 @@ from Setup import buddies
 import time
 
 
-
-
-
 st.set_page_config(page_title="Trading Buddy", layout="wide")
 
 st.title("📈 ICT Trading Buddy Dashboard")
