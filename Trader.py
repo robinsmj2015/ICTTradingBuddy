@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+
 class Trader:
     """
     Handles trade execution logic for entering and exiting trades based on confidence signals and market prices.
