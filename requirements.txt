@@ -4,3 +4,4 @@ streamlit
 pytz
 plotly
 pandas-ta
+setuptools
