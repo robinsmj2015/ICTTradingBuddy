@@ -26,7 +26,7 @@ st.set_page_config(page_title="Trading Buddy", layout="wide")
 
 st.title("📈 ICT Trading Buddy Dashboard")
 
-tab1, tab2 = st.tabs(["Live View", "Demo with Static Data"])
+tab1 = st.tabs(["Live View"])
 
 eq = "test"
 

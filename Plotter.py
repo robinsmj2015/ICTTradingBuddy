@@ -82,12 +82,17 @@ class Plotter:
 
         rec = self.buddy.recommendation
 
+        st.write("ICT Markers:")
+        for k, v in rec.ict_markers.items():
+            st.write(k, v)
+
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
             st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True)
             st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True)
-            
+
         with col2:
             st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)
             st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True)

@@ -10,16 +10,13 @@ def process_symbol(buddy):
     This function:
     
     - Adds tick to buffer and candles
-    - Triggers plot or visualizer if not running
+    - Updates visualizer
     - Makes a strategy-based recommendation
     - Writes trade data to dashboard 
 
     Args:
-        col_index (int): Column index in the RTD sheet where symbol data is located.
         buddy (object): Assistant-like object managing state, strategy, trader, candles, etc.
         
-        daily_pivots (dict): Pivot level data used by strategy logic.
-        to_use_plotter (bool): If True, starts the chart animation thread; else starts dashboard visualizer.
     """
 
     # Create synthetic data

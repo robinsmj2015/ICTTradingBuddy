@@ -24,8 +24,6 @@ from OffsetCandleManager import OffsetCandleManager
 equities = ["test"]  # which equity to track
 data_gather_time = 2  # time to wait before displaying visuals and making recs
 candle_durations = {1, 2, 3, 5, 15}  # candle duratons
-to_use_plotter = False  # set True to enable Matplotlib animation
-
 
 # ------------------------- Constants ----------------------------------
 POINTS_TO_DOLLARS = {"test": 1}
