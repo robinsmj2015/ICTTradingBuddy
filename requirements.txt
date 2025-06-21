@@ -5,4 +5,4 @@ pytz
 streamlit-autorefresh
 plotly
 pandas-ta
-setuptools=80.0.0
+setuptools==80.0.0
