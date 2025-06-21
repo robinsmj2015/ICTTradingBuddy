@@ -23,13 +23,8 @@ def process_symbol(buddy):
     # Update each candle timeframe with the tick
     for candle in buddy.candles.values():
         candle.add_tick(buddy.last_tick)
-
-    # Start plotter if not already started and enough data exists
     
-        if len(buddy.candles[1].trackers[0].df) >= buddy.data_gather_time:
-            buddy.plotter.render_all()
-            
-   
+    buddy.plotter.render_all()   
 
     # Get trade recommendation
     buddy.strat.make_rec()

@@ -14,12 +14,31 @@ Dependencies:
 # https://icttradingbuddy.onrender.com
 # https://dashboard.render.com/web/srv-d190thvdiees73ad5gbg/deploys/dep-d192aa3uibrs73boejjg
 
-import streamlit as st
+import streamlit as st, st
+from streamlit_autorefresh import st_autorefresh
 import time
 import pickle
 from Processor import process_symbol
 import datetime
 import os
+
+
+
+
+
+# ------------------- Reset warning-------------------
+
+if "initialized" not in st.session_state:
+    st.session_state.initialized = True
+    st.session_state.cold_start = True
+else:
+    st.session_state.cold_start = False
+
+if st.session_state.cold_start:
+    st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data...")
+
+
+st_autorefresh(interval=10000, key="refresh")  # every 10 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -58,10 +77,10 @@ tab1, = st.tabs(["Live View"])
 
 # ------------------------ Main Refreshing Logic ------------------------
 with tab1:
-    st.subheader("Live Trade Visualization")
+    st.subheader("Live Data Simulation")
 
     # Short loop to update a few times before refreshing
-    for _ in range(5):
+    for _ in range(3):
         process_symbol(buddy)
         time.sleep(1)
 

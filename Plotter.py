@@ -28,16 +28,37 @@ class Plotter:
             x=df.index,
             open=df['open'], high=df['high'], low=df['low'], close=df['close'],
             increasing_line_color='green', decreasing_line_color='red'))
-        fig.update_layout(title=title, xaxis_rangeslider_visible=False)
+        fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
         return fig
 
     @staticmethod
     def plot_volume(df, title):
         fig = go.Figure()
         fig.add_trace(go.Bar(x=df.index, y=df['volume'], marker_color='gray'))
-        fig.update_layout(title=title, yaxis_title='Volume')
+        fig.update_layout(title=title, yaxis_title='Volume', xaxis_title='Time (UTC)')
         return fig
     
+
+
+    @staticmethod
+    def plot_atr_meter(atr):
+        fig = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=atr,
+            title={'text': "ATR"},
+            gauge={
+                'axis': {'range': [0, 128]},  # Adjust range based on realistic ATR range
+                'bar': {'color': "blue"},
+                'steps': [
+                    {'range': [0, 16], 'color': "white"},
+                    {'range': [16, 32], 'color': "lightgray"},
+                    {'range': [32, 64], 'color': "gray"},
+                    {'range': [64, 128], 'color': "darkgray"},
+                ]
+            }
+        ))
+        return fig
+        
     @staticmethod
     def plot_speedometer(val, atr):
         fig = go.Figure(go.Indicator(
@@ -58,11 +79,30 @@ class Plotter:
 
     @staticmethod
     def plot_indicator_bars(indicators_dict):
+        # df = pd.DataFrame(list(indicators_dict.items()), columns=['Indicator', 'Score'])
+        # colors = df['Score'].apply(lambda v: 'green' if v > 0 else 'red' if v < 0 else 'gray')
+        # fig = px.bar(df, x='Score', y='Indicator', orientation='h', color=colors,
+        #             color_discrete_sequence=colors, title="Subindicator Scores")
+        # fig.update_layout(showlegend=False, xaxis_range=[-10, 10])
+        # return fig
         df = pd.DataFrame(list(indicators_dict.items()), columns=['Indicator', 'Score'])
-        colors = df['Score'].apply(lambda v: 'green' if v > 0 else 'red' if v < 0 else 'gray')
-        fig = px.bar(df, x='Score', y='Indicator', orientation='h', color=colors,
-                    color_discrete_sequence=colors, title="Subindicator Scores")
-        fig.update_layout(showlegend=False, xaxis_range=[-10, 10])
+        df['Color'] = df['Score'].apply(lambda v: 'green' if v > 0 else 'red' if v < 0 else 'gray')
+
+        fig = px.bar(
+            df,
+            x='Score',
+            y='Indicator',
+            orientation='h',
+            color='Indicator',
+            color_discrete_map={row['Indicator']: row['Color'] for _, row in df.iterrows()},
+            title="Subindicator Scores"
+        )
+        fig.update_layout(
+            showlegend=False,
+            xaxis_title="Score",
+            yaxis_title="Indicator",
+            xaxis_range=[-10, 10]
+        )
         return fig
     
     @staticmethod
@@ -81,7 +121,9 @@ class Plotter:
     # ============ Streamlit Layout ============
     def render_all(self):
 
-        
+        if len(self.buddy.candles[1].trackers[0].df) < self.buddy.data_gather_time:
+            st.write("Loading data -- this will take 120 seconds")
+            return
 
         unique_suffix = str(int(time.time() * 1000)) 
 
@@ -95,30 +137,50 @@ class Plotter:
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True, key=f"1m price {unique_suffix}")
-            st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key=f"1m volume {unique_suffix}")
+            with st.empty():
+                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True, key=f"1m price {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key=f"1m volume {unique_suffix}")
 
         with col2:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True, key=f"3m price {unique_suffix}")
-            st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key=f"3m volume {unique_suffix}")
+            with st.empty():
+                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True, key=f"3m price {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key=f"3m volume {unique_suffix}")
         
         with col3:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True, key=f"5m price {unique_suffix}")
-            st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key=f"5m volume {unique_suffix}")
+            with st.empty():
+                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True, key=f"5m price {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key=f"5m volume {unique_suffix}")
 
+
+        
         #st.plotly_chart(self.plot_candles(self.buddy.candles[15].df.tail(15), "15m Price"), use_container_width=True, key="15m price")
-        st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0, rec.ict_indicators.get("atr", 0)), use_container_width=True, key=f"speedometer {unique_suffix}")
+
+        g1, g2 = st.columns(2)
+
+        with g1:
+            with st.empty():
+                st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0, rec.ict_indicators.get("atr", 0)),
+                                use_container_width=True, key=f"speedometer {unique_suffix}")
+
+        with g2:
+            with st.empty():
+                st.plotly_chart(self.plot_atr_meter(rec.ict_indicators.get("atr", 0)),
+                                use_container_width=True, key=f"atr_meter {unique_suffix}")
 
         bars = rec.ict_indicators.copy() if rec.valid else {}
         bars["indicators"] = rec.other_indicators.get("inds", 0)
         default_keys = ["order_blocks", "liq_sweep", "fvg", "pressure_imbalance", "fv_dislocation", "indicators"]
         for k in default_keys:
             bars.setdefault(k, 0)
-        st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True, key=f"indicators {unique_suffix}")
+        with st.empty():
+            st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True, key=f"indicators {unique_suffix}")
 
-        st.plotly_chart(
-            self.plot_balance(self.buddy.buff.df[self.buddy.buff.df['actual_profit'].notna()], self.buddy.trader.starting_balance),
-            use_container_width=True, key=f"balance {unique_suffix}"
-        )
+        # st.plotly_chart(
+        #     self.plot_balance(self.buddy.buff.df[self.buddy.buff.df['actual_profit'].notna()], self.buddy.trader.starting_balance),
+        #     use_container_width=True, key=f"balance {unique_suffix}"
+        # )
+
+
+
 
 
