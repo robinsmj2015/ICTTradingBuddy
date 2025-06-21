@@ -38,6 +38,24 @@ class Plotter:
         fig.update_layout(title=title, yaxis_title='Volume', xaxis_title='Time (UTC)')
         return fig
     
+    @staticmethod
+    def plot_pressure_meter(p):
+        fig = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=p,
+            title={'text': "Pressure (Bid size - ask size)"},
+            gauge={
+                'axis': {'range': [-10, 10]},  # Adjust range based on realistic ATR range
+                'bar': {'color': "black"},
+                'steps': [
+                    {'range': [-10, -5], 'color': "red"},
+                    {'range': [-5, 5], 'color': "gold"},
+                    {'range': [5, 10], 'color': "green"},
+                ]
+            }
+        ))
+        return fig
+
 
 
     @staticmethod
@@ -48,7 +66,7 @@ class Plotter:
             title={'text': "ATR"},
             gauge={
                 'axis': {'range': [0, 128]},  # Adjust range based on realistic ATR range
-                'bar': {'color': "blue"},
+                'bar': {'color': "black"},
                 'steps': [
                     {'range': [0, 16], 'color': "white"},
                     {'range': [16, 32], 'color': "lightgray"},
@@ -60,11 +78,11 @@ class Plotter:
         return fig
         
     @staticmethod
-    def plot_speedometer(val, atr):
+    def plot_speedometer(val):
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=val,
-            title={'text': f"Recommendation Strength (ATR: {atr})"},
+            title={'text': "Recommendation Strength"},
             gauge={
                 'axis': {'range': [-10, 10]},
                 'bar': {'color': "black"},
@@ -117,6 +135,58 @@ class Plotter:
         fig.update_layout(title="Balance Over Time", yaxis_title="Balance ($)",
                         xaxis_title="Time")
         return fig
+    
+
+    def plot_zone_ladder(zones, title):
+        fig = go.Figure()
+
+        # Compute price range
+        all_prices = [p for zone in zones for p in (zone["low"], zone["high"])]
+        min_price = min(all_prices) - 2
+        max_price = max(all_prices) + 2
+
+        for idx, zone in enumerate(zones, 1):
+            low = zone["low"]
+            high = zone["high"]
+            center = (low + high) / 2
+
+            # Low = red bar
+            fig.add_trace(go.Scatter(
+                x=[0, 1],
+                y=[low, low],
+                mode='lines',
+                line=dict(color='red', width=6),
+                showlegend=False
+            ))
+
+            # High = green bar
+            fig.add_trace(go.Scatter(
+                x=[0, 1],
+                y=[high, high],
+                mode='lines',
+                line=dict(color='green', width=6),
+                showlegend=False
+            ))
+
+            # Label with zone index
+            fig.add_trace(go.Scatter(
+                x=[1.05],
+                y=[center],
+                text=[str(idx)],
+                mode='text',
+                showlegend=False
+            ))
+
+        fig.update_layout(
+            title=title,
+            xaxis=dict(visible=False),
+            yaxis=dict(autorange=False, range=[max_price, min_price], title='Price', tickmode='linear', dtick=1),
+            height=500,
+            margin=dict(l=20, r=40, t=40, b=20)
+        )
+
+        return fig
+
 
     # ============ Streamlit Layout ============
     def render_all(self):
@@ -129,10 +199,8 @@ class Plotter:
 
         rec = self.buddy.recommendation
 
-        st.write("ICT Markers:")
-        for k, v in rec.ict_markers.items():
-            st.write(k, v)
-
+      
+        # -------------- candles ------------------------------
 
         col1, col2, col3 = st.columns(3)
 
@@ -152,34 +220,52 @@ class Plotter:
                 st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key=f"5m volume {unique_suffix}")
 
 
-        
-        #st.plotly_chart(self.plot_candles(self.buddy.candles[15].df.tail(15), "15m Price"), use_container_width=True, key="15m price")
+        # --------------------- ict zones ---------------------------------
 
-        g1, g2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            with st.empty():
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["obs"], "Order Blocks"))
+
+        with c2:
+            with st.empty():
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["liq_pools"], "Liquidity Sweeps"))
+
+        with c3:
+            with st.empty():
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"))
+
+
+        # --------------- rec, atr and pressure ----------------------------
+
+        g1, g2, g3 = st.columns(3)
 
         with g1:
             with st.empty():
-                st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0, rec.ict_indicators.get("atr", 0)),
-                                use_container_width=True, key=f"speedometer {unique_suffix}")
+                st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0), use_container_width=True, key=f"speedometer {unique_suffix}")
 
         with g2:
             with st.empty():
                 st.plotly_chart(self.plot_atr_meter(rec.ict_indicators.get("atr", 0)),
                                 use_container_width=True, key=f"atr_meter {unique_suffix}")
+                
+        with g3:
+            with st.empty():
+                st.plotly_chart(self.plot_pressure_meter(rec.ict_indicators.get("pressure_imbalance", 1)),
+                                use_container_width=True, key=f"pressure meter {unique_suffix}")
+
+        # -----------------  other indicators --------------------------------
 
         bars = rec.ict_indicators.copy() if rec.valid else {}
         bars["indicators"] = rec.other_indicators.get("inds", 0)
-        default_keys = ["order_blocks", "liq_sweep", "fvg", "pressure_imbalance", "fv_dislocation", "indicators"]
+        default_keys = ["fv_dislocation", "indicators"]
         for k in default_keys:
             bars.setdefault(k, 0)
         with st.empty():
             st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True, key=f"indicators {unique_suffix}")
 
-        # st.plotly_chart(
-        #     self.plot_balance(self.buddy.buff.df[self.buddy.buff.df['actual_profit'].notna()], self.buddy.trader.starting_balance),
-        #     use_container_width=True, key=f"balance {unique_suffix}"
-        # )
-
+    
 
 
 

@@ -174,10 +174,8 @@ class InnerCircleTradingUtils:
         """
         Score based on pressure imbalance (from volume delta or similar).
         """
-        if pressure is None or pressure <= 0:
-            return 0
-        score = 10 * math.log10(pressure)
-        return max(-10, min(10, round(score)))
+        
+        return max(-10, min(10, pressure))
 
 
     @staticmethod

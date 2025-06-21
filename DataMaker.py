@@ -2,7 +2,7 @@
 import random
 from datetime import datetime
 
-def make_test_data(last_tick):
+def make_synthetic_data(last_tick):
     """
     Simulates tick data, ±0.01% to mimic live price movement.
 
@@ -45,7 +45,7 @@ def make_test_data(last_tick):
     last_tick["net_percent_change"] = round((last_tick["net_change"] / last_tick["open"]) * 100, 2)
     last_tick["fair_value_delta"] = round(last_tick["mark"] - last_tick["last"], 2)
     last_tick["zero_or_five"] = (int(last_tick["last"]) == last_tick["last"]) and (str(last_tick["last"])[-1] in ["0", "5"])
-    last_tick["pressure"] = round(last_tick["bid_size"] / last_tick["ask_size"], 2)
+    last_tick["pressure"] = int(last_tick["bid_size"] - last_tick["ask_size"])
     last_tick["momentum"] = last_tick["last"] - last_tick["open"]
 
     last_tick["timestamp"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]

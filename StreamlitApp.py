@@ -14,16 +14,13 @@ Dependencies:
 # https://icttradingbuddy.onrender.com
 # https://dashboard.render.com/web/srv-d190thvdiees73ad5gbg/deploys/dep-d192aa3uibrs73boejjg
 
-import streamlit as st, st
+import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 import time
 import pickle
 from Processor import process_symbol
 import datetime
 import os
-
-
-
 
 
 # ------------------- Reset warning-------------------
