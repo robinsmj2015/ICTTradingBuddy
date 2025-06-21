@@ -33,12 +33,12 @@ class StratICT(Strategy):
         self.ict_merge_threshold = ict_merge_threshold
 
 
-    def make_rec(self, pivots, data_gather_time):
+    def make_rec(self, data_gather_time):
         """
         Generates a trade recommendation using ICT principles.
         
         Args:
-            pivots (dict): Daily pivot levels.
+            
             data_gather_time (int): Minimum number of candles required for a valid decision.
         """
 
@@ -81,7 +81,7 @@ class StratICT(Strategy):
             ob_score = self.ict_utils.score_order_blocks(price, order_blocks)
             imbalance = self.ict_utils.score_pressure_bias(tick.get("pressure"))
             dislocation = self.ict_utils.score_fv_dislocation(tick.get("fair_value_delta"))
-            ind_score = self.get_inds(candle, pivots)
+            ind_score = self.get_inds(candle)
 
             session = self.ict_utils.ict_scalping_confidence(tick["timestamp"])
             volume_spike = self.score_volume_spike(df)
