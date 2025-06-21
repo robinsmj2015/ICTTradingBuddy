@@ -239,7 +239,8 @@ class Plotter:
             for position in zones:
                 for tup in position:
                     reds.append(tup[0])
-                    greens.append(tup[1])
+                    if len(tup) == 2:
+                        greens.append(tup[1])
         
         fig = go.Figure()
 
