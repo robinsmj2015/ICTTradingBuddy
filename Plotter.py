@@ -209,7 +209,7 @@ class Plotter:
         return fig
 
     @staticmethod
-    def plot_zone_ladder(zones: List[Dict[str, float]], title: str) -> go.Figure:
+    def plot_zone_ladder(zones, title: str) -> go.Figure:
         """
         Create a ladder-style vertical zone chart for ICT markers.
 
@@ -220,24 +220,56 @@ class Plotter:
         Returns:
             go.Figure: Ladder zone chart.
         """
+
+        reds, greens = [], []
+
+        if title == "Order Blocks":
+            # [{"high": x, "low": y}, ...]
+            for z in zones:
+                reds.append(z["low"])
+                greens.append(z["high"])
+            
+        elif title == "Liquidity Sweeps":
+            # {"high": [x, y, z], "low": [a, b, c]}
+            reds = zones.get("short", [])
+            greens = zones.get("long", []) 
+
+        elif title == "FVGs":
+            # {short: [(low1, high1), (low2, high2)]}
+            for position in zones:
+                for tup in position:
+                    reds.append(tup[0])
+                    greens.append(tup[1])
+        
         fig = go.Figure()
-        all_prices = [p for zone in zones for p in (zone["low"], zone["high"])]
-        min_price = min(all_prices) - 2
-        max_price = max(all_prices) + 2
 
-        for idx, zone in enumerate(zones, 1):
-            low = zone["low"]
-            high = zone["high"]
-            center = (low + high) / 2
+        if not reds and not greens:
+            return fig
+        
 
-            fig.add_trace(go.Scatter(x=[0, 1], y=[low, low], mode='lines', line=dict(color='red', width=6), showlegend=False))
-            fig.add_trace(go.Scatter(x=[0, 1], y=[high, high], mode='lines', line=dict(color='green', width=6), showlegend=False))
-            fig.add_trace(go.Scatter(x=[1.05], y=[center], text=[str(idx)], mode='text', showlegend=False))
+        min_red, min_green, max_red, max_green = float("inf"),  float("inf"), float("-inf"), float("-inf")
+        if reds:
+            min_red = min(reds)
+            max_red = max(reds)
+        
+        if greens:
+            min_green = min(greens)
+            max_green = max(greens)
+
+        
+        min_price = min(min_red, min_green) - 2
+        max_price = max(max_red, max_green) + 2
+
+        for red in reds:
+            fig.add_trace(go.Scatter(x=[0, 1], y=[red, red], mode='lines', line=dict(color='red', width=6), showlegend=False))
+        
+        for green in greens:
+            fig.add_trace(go.Scatter(x=[0, 1], y=[green, green], mode='lines', line=dict(color='green', width=6), showlegend=False))
 
         fig.update_layout(
             title=title,
             xaxis=dict(visible=False),
-            yaxis=dict(autorange=False, range=[max_price, min_price], title='Price', tickmode='linear', dtick=1),
+            yaxis=dict(autorange=False, range=[min_price, max_price], title='Price', tickmode='linear', dtick=1),
             height=500,
             margin=dict(l=20, r=40, t=40, b=20)
         )

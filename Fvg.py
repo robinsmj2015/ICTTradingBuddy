@@ -24,7 +24,7 @@ class Fvg:
         df: pd.DataFrame,
         direction: str,
         max_lookback: int
-    ) -> List[Tuple[float, float]]:
+        ) -> List[Tuple[float, float]]:
         """
         Scans recent candles for bullish or bearish Fair Value Gaps (FVGs).
 

@@ -24,7 +24,7 @@ class LiquiditySweep:
         tolerance: float,
         lookback: int,
         group_size: int
-    ) -> List[float]:
+        ) -> List[float]:
         """
         Detects clustered price levels that act as liquidity pools using grouping logic.
 
@@ -71,7 +71,7 @@ class LiquiditySweep:
         tolerance: float = 0.25,
         lookback: int = 25,
         group_size: int = 2
-    ) -> int:
+        ) -> int:
         """
         Scores the presence of liquidity sweeps by comparing recent price movement across known pools.
 

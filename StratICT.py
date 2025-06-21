@@ -129,9 +129,9 @@ class StratICT(Strategy):
         }
         rec.other_indicators = {"inds": ind_score}
         rec.ict_markers = {
-            "liq_pools": merged_liq,
-            "fvg_zones": merged_fvg,
-            "obs": merged_obs,
+            "liq_pools": all_liq,
+            "fvg_zones": all_fvgs,
+            "obs": all_obs,
             "ob_range": ob_range
         }
 
@@ -151,6 +151,15 @@ class StratICT(Strategy):
             return []
 
         # Case 1: List of dictionaries
+        # order blocks format -- 
+        # order_blocks.append({
+        #                 "timestamp": prev.name,
+        #                 "type": ob_type,
+        #                 "index": ob_index,
+        #                 "high": ob_high,
+        #                 "low": ob_low
+        #             })
+
         if isinstance(zones[0], dict):
             lows = [float(z["low"]) for z in zones if "low" in z]
             highs = [float(z["high"]) for z in zones if "high" in z]
