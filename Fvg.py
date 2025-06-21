@@ -59,8 +59,8 @@ class Fvg:
                     fvgs.append((fvg_low, fvg_high))
 
         # Sort FVGs by distance from last closing price
-        last_close = df.iloc[-1]["close"]
-        fvgs.sort(key=lambda zone: abs((zone[0] + zone[1]) / 2 - last_close))
+        # last_close = df.iloc[-1]["close"]
+        # fvgs.sort(key=lambda zone: abs((zone[0] + zone[1]) / 2 - last_close))
 
         return fvgs
 

@@ -235,7 +235,9 @@ class Plotter:
             greens = zones.get("long", []) 
 
         elif title == "FVGs":
-            # {short: [(low1, high1), (low2, high2)]}
+            # {short: [(low1, high1)...], long: [(low2, high2)...]}
+            if zones:
+                st.write(zones)
             for position in zones:
                 for tup in position:
                     reds.append(tup[0])
