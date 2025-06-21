@@ -54,7 +54,7 @@ buddy = st.session_state.buddy
 # ------------------------ Streamlit UI Config ------------------------
 st.set_page_config(page_title="Trading Buddy", layout="wide")
 st.title("📈 ICT Trading Buddy Dashboard")
-tab1 = st.tabs(["Live View"])
+tab1, = st.tabs(["Live View"])
 
 # ------------------------ Main Refreshing Logic ------------------------
 with tab1:
