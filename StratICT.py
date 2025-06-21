@@ -33,13 +33,11 @@ class StratICT(Strategy):
         self.ict_merge_threshold = ict_merge_threshold
 
 
-    def make_rec(self, data_gather_time):
+    def make_rec(self):
         """
         Generates a trade recommendation using ICT principles.
         
-        Args:
-            
-            data_gather_time (int): Minimum number of candles required for a valid decision.
+       
         """
 
         candle_manager = self.buddy.candles[1]
@@ -48,7 +46,7 @@ class StratICT(Strategy):
         price = tick["last"]
 
 
-        offset_dfs = {offset: tracker.df for offset, tracker in candle_manager.trackers.items() if len(tracker.df) >= data_gather_time}
+        offset_dfs = {offset: tracker.df for offset, tracker in candle_manager.trackers.items() if len(tracker.df) >= self.buddy.data_gather_time}
         if not offset_dfs:
             self.buddy.recommendation.valid = False
             return

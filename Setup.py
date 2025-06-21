@@ -39,7 +39,7 @@ FIELD_ROWS = {
 strategy_factory = Strategy()
 
 # ------------------------- Create Buddies -----------------------------
-buddies = {}
+
 for eq in equities:
     buffer = Buffer(eq, list(FIELD_ROWS.keys()))
     plotter = Plotter(eq)
@@ -51,23 +51,23 @@ for eq in equities:
     candles = {cd: CandleTracker(cd) for cd in candle_durations}
     candles[1] = OffsetCandleManager(duration=1)
 
-    buddies[eq] = Assistant(
+    b = Assistant(
         data_gather_time, eq, POINTS_TO_DOLLARS[eq],
         trader, buffer, plotter, candles, strat, rec
     )
 
 # ------------------------- Wire parent (buddy) instances to each class instance --------------------------
-for b in buddies.values():
-    b.strat.buddy = b
-    b.recommendation.buddy = b
-    b.buff.buddy = b
-    b.plotter.buddy = b
-    b.trader.buddy = b
-    for candle in b.candles.values():
-        if isinstance(candle, OffsetCandleManager):
-            candle.set_buddy(b)
-        else:
-            candle.buddy = b
+
+b.strat.buddy = b
+b.recommendation.buddy = b
+b.buff.buddy = b
+b.plotter.buddy = b
+b.trader.buddy = b
+for candle in b.candles.values():
+    if isinstance(candle, OffsetCandleManager):
+        candle.set_buddy(b)
+    else:
+        candle.buddy = b
 
 # ------------------------- Startup Message ----------------------------
 future_time = (datetime.now() + timedelta(minutes=data_gather_time)).time()

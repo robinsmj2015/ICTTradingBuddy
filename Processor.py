@@ -1,6 +1,4 @@
 from TestDataMaker import make_test_data
-from Setup import data_gather_time
-
 
 
 def process_symbol(buddy):
@@ -34,7 +32,7 @@ def process_symbol(buddy):
    
 
     # Get trade recommendation
-    buddy.strat.make_rec(data_gather_time)
+    buddy.strat.make_rec()
 
     if buddy.recommendation.valid:
         rec = buddy.recommendation
@@ -52,6 +50,6 @@ def process_symbol(buddy):
 
         # Write recommendation to buffer
         buddy.buff.write_recs_to_buff(rec_data)
-        buddy.trader.check_trading(data_gather_time)
+        buddy.trader.check_trading(buddy.data_gather_time)
 
 
