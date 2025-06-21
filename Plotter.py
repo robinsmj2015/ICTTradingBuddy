@@ -136,7 +136,7 @@ class Plotter:
                         xaxis_title="Time")
         return fig
     
-
+    @staticmethod
     def plot_zone_ladder(zones, title):
         fig = go.Figure()
 
@@ -226,15 +226,15 @@ class Plotter:
 
         with c1:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["obs"], "Order Blocks"))
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["obs"], "Order Blocks"), use_container_width=True, key=f"OB {unique_suffix}")
 
         with c2:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["liq_pools"], "Liquidity Sweeps"))
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["liq_pools"], "Liquidity Sweeps"), use_container_width=True, key=f"LS {unique_suffix}")
 
         with c3:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"))
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"), use_container_width=True, key=f"FVG {unique_suffix}")
 
 
         # --------------- rec, atr and pressure ----------------------------
