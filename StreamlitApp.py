@@ -32,7 +32,7 @@ else:
     st.session_state.cold_start = False
 
 if st.session_state.cold_start:
-    st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data...")
+    st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data... This will take ~120 seconds")
 
 
 st_autorefresh(interval=10000, key="refresh")  # every 10 seconds

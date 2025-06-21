@@ -92,8 +92,6 @@ class StratICT(Strategy):
         rec_val = int(round(sum(scores) / len(scores), 0))
 
         is_long = True if rec_val > self.buddy.trader.entry_ratio_threshold else False if rec_val < -self.buddy.trader.entry_ratio_threshold else None
-        if is_long is None:
-            self.buddy.recommendation.valid = False
             
 
         merged_obs = self.merge_zones(all_obs)
