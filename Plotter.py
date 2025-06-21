@@ -238,7 +238,7 @@ class Plotter:
             # {short: [(low1, high1)...], long: [(low2, high2)...]}
             if zones:
                 st.write(zones)
-            for position in zones:
+            for position in zones.values():
                 for tup in position:
                     reds.append(tup[0])
                     if len(tup) == 2:
@@ -250,7 +250,7 @@ class Plotter:
             return fig
         
 
-        min_red, min_green, max_red, max_green = float("inf"),  float("inf"), float("-inf"), float("-inf")
+        min_red, min_green, max_red, max_green = float("inf"), float("inf"), float("-inf"), float("-inf")
         if reds:
             min_red = min(reds)
             max_red = max(reds)
@@ -300,20 +300,33 @@ class Plotter:
         unique_suffix = str(int(time.time() * 1000)) 
         rec = self.buddy.recommendation
 
-        # Candlestick and Volume Charts
+        # Candlestick Charts
         col1, col2, col3 = st.columns(3)
         with col1:
             with st.empty():
                 st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True, key=f"1m price {unique_suffix}")
-                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key=f"1m volume {unique_suffix}")
         with col2:
             with st.empty():
                 st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True, key=f"3m price {unique_suffix}")
-                st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key=f"3m volume {unique_suffix}")
         with col3:
             with st.empty():
                 st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True, key=f"5m price {unique_suffix}")
+
+
+        # Volume Charts
+        col4, col5, col6 = st.columns(3)
+        with col4:
+            with st.empty():
+                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key=f"1m volume {unique_suffix}")
+        with col5:
+            with st.empty():
+                st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key=f"3m volume {unique_suffix}")
+        with col6:
+            with st.empty():
                 st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key=f"5m volume {unique_suffix}")
+
+
+
 
         # ICT Zones
         c1, c2, c3 = st.columns(3)
@@ -326,6 +339,7 @@ class Plotter:
         with c3:
             with st.empty():
                 st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"), use_container_width=True, key=f"FVG {unique_suffix}")
+
 
         # Gauges
         g1, g2, g3 = st.columns(3)
