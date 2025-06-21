@@ -90,26 +90,26 @@ class Plotter:
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True)
-            st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True)
+            st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True, key="1m price")
+            st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key="1m volume")
 
         with col2:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)
-            st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True)
+            st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True, key="3m price")
+            st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key="3m volume")
         
         with col3:
-            st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True)
-            st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True)
+            st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True, key="5m price")
+            st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key="5m volume")
 
-        st.plotly_chart(self.plot_candles(self.buddy.candles[15].df.tail(15), "15m Price"), use_container_width=True)
-        st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0, rec.ict_indicators.get("atr", 0)), use_container_width=True)
+        st.plotly_chart(self.plot_candles(self.buddy.candles[15].df.tail(15), "15m Price"), use_container_width=True, key="15m price")
+        st.plotly_chart(self.plot_speedometer(rec.val if rec.valid else 0, rec.ict_indicators.get("atr", 0)), use_container_width=True, key="speedometer")
 
         bars = rec.ict_indicators.copy() if rec.valid else {}
         bars["indicators"] = rec.other_indicators.get("inds", 0)
         default_keys = ["order_blocks", "liq_sweep", "fvg", "pressure_imbalance", "fv_dislocation", "indicators"]
         for k in default_keys:
             bars.setdefault(k, 0)
-        st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True)
+        st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True, key="indicators")
 
         st.plotly_chart(
             self.plot_balance(self.buddy.buff.df[self.buddy.buff.df['actual_profit'].notna()], self.buddy.trader.starting_balance),
