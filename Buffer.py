@@ -7,7 +7,7 @@ class Buffer:
     strategy recommendations, and trade results. 
 
     Attributes:
-        symbol (str): Ticker symbol for the instrument (e.g., "MNQ").
+        symbol (str): Ticker symbol for the instrument
         df (pd.DataFrame): Internal buffer storing ticks and trade metadata.
         buddy (object): Reference to the orchestrating Assistant or controller class.
     """

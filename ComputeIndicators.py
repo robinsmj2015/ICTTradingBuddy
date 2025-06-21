@@ -85,7 +85,6 @@ def _get_inds_(candle: dict) -> int:
 
     Args:
         candle (dict): Dictionary of indicator values from a candle row.
-        symbol (str): Symbol name to look up in the pivot table. Default is "MNQ1!".
 
     Returns:
         int: A signal score between -10 (strong short) and +10 (strong long).

@@ -42,6 +42,9 @@ class TakeProfit:
             float: Calculated take-profit price, rounded to the nearest 0.25.
         """
 
+        if direction is None:
+            return
+
         # Use distance to far end of order block if available, else default
         r = abs(entry_price - ob_range[1 if direction == "long" else 0]) if ob_range else 5
 

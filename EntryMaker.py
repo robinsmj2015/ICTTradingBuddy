@@ -42,6 +42,9 @@ class EntryMaker:
         Returns:
             float: Rounded entry price, based on blend of available references and ATR max offset.
         """
+        if direction is None:
+            return
+
         mark = tick["mark"]
         last = tick["last"]
         ob_entry = None

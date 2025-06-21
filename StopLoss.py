@@ -35,6 +35,8 @@ class StopLoss:
         Returns:
             float: Final stop loss price.
         """
+        if direction is None:
+            return
         structure = df["low"].rolling(5).min().iloc[-1] if direction == "long" else df["high"].rolling(5).max().iloc[-1]
         structure_sl = structure - 0.25 if direction == "long" else structure + 0.25
 

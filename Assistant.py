@@ -9,7 +9,7 @@ class Assistant:
 
     Attributes:
         data_gather_time (datetime): The current timestamp used for evaluating indicators.
-        symbol (str): The trading symbol (e.g., 'MNQ', 'MES').
+        symbol (str): The trading symbol
         points_to_dollars (float): Conversion factor for point value to dollars.
         trader: Trade execution manager.
         buff: Buffer that stores recent ticks or data windows.

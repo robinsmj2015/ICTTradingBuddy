@@ -12,7 +12,7 @@ class StratICT(Strategy):
     
     Attributes:
         ict_threshold (int): Minimum number of zone confirmations needed to keep a zone.
-        ict_merge_threshold (int): Tick range within which zones are merged (e.g. 5 ticks = 1.25 points for MNQ).
+        ict_merge_threshold (int): Tick range within which zones are merged
         buddy (object): Reference to the parent context (typically contains candles, last tick, and trader config).
     """
 
@@ -48,7 +48,6 @@ class StratICT(Strategy):
 
         offset_dfs = {offset: tracker.df for offset, tracker in candle_manager.trackers.items() if len(tracker.df) >= self.buddy.data_gather_time}
         if not offset_dfs:
-            self.buddy.recommendation.valid = False
             return
 
         all_obs = []
@@ -98,21 +97,21 @@ class StratICT(Strategy):
         merged_fvg = {d: self.merge_zones(all_fvgs[d]) for d in ["short", "long"]}
         merged_liq = {d: self.merge_zones(all_liq[d]) for d in ["short", "long"]}
 
-        direction = "long" if is_long else "short"
+        direction = "long" if is_long else None if (is_long is None) else "short"
         df0 = candle_manager.trackers[0].df
         candle0 = df0.iloc[-1]
         atr_val = self.ict_utils.get_atr(df0)
         vwap = candle0.get("VWAP")
 
-        ob_range = self.ict_utils.get_nearest_ob_range(merged_obs, price, direction)
-        fvg_zones = merged_fvg[direction]
-        liq_pools = merged_liq[direction]
+        ob_range = self.ict_utils.get_nearest_ob_range(merged_obs, price, direction) if direction is not None else None
+        fvg_zones = merged_fvg[direction] if direction is not None else None
+        liq_pools = merged_liq[direction] if direction is not None else None
 
         entry = self.get_entry_price(candle0["close"], tick, direction, fvg_zones, merged_obs, atr_val, vwap)
         sl = self.get_stop_loss(df0, direction, ob_range, entry, atr_val, fvg_zones, liq_pools)
         tp = self.get_take_profit(entry, direction, ob_range, fvg_zones, liq_pools, atr_val, vwap)
-        contracts = self.get_num_contracts(rec_val)
-        timeout = self.get_timeout(atr_val)
+        contracts = self.get_num_contracts(rec_val) if direction is not None else None
+        timeout = self.get_timeout(atr_val) if direction is not None else None
 
         self.buddy.recommendation.update_trade(
             val=rec_val, position=direction, entry=entry, sl=sl, tp=tp,
@@ -245,6 +244,7 @@ class StratICT(Strategy):
         Returns:
             int: Number of contracts (1 to 3).
         """
+
         if abs(rec) > 8:
             return 3
         elif abs(rec) > 5:

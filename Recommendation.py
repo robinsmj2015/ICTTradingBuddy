@@ -4,9 +4,8 @@ class Recommendation:
     risk parameters, and scoring metadata for both ICT and other indicators.
     
     Attributes:
-        symbol (str): The trading symbol (e.g., "MNQ", "MES").
+        symbol (str): The trading symbol
         buddy (object): Reference to the Assistant or main controller.
-        valid (bool): Whether the recommendation is active/valid.
         val (float): The final recommendation confidence score.
         position (str): "long", "short", or None.
         entry (float): Entry price for the trade.
@@ -30,7 +29,7 @@ class Recommendation:
         self.symbol = symbol
         self.buddy = None
 
-        self.valid = False
+
         self.val = None
         self.position = None
         self.entry = None
@@ -64,7 +63,7 @@ class Recommendation:
             timeout (float): Duration until trade is invalidated or exited.
             num_contracts (int): Number of contracts to trade.
         """
-        self.valid = True
+        
         self.val = val
         self.position = position
         self.entry = entry

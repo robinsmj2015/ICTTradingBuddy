@@ -6,7 +6,7 @@ class Trader:
     Handles trade execution logic for entering and exiting trades based on confidence signals and market prices.
 
     Attributes:
-        symbol (str): Trading symbol (e.g., "MNQ").
+        symbol (str): Trading symbol
         entry_ratio_threshold (float): Confidence threshold to trigger a trade entry.
         lookback (int): Number of recent ticks to use for confidence averaging.
         balance (float): Current simulated trading balance.
