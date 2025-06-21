@@ -51,18 +51,17 @@ if "buddy" not in st.session_state:
 
 buddy = st.session_state.buddy
 
-
 # ------------------------ Streamlit UI Config ------------------------
 st.set_page_config(page_title="Trading Buddy", layout="wide")
 st.title("📈 ICT Trading Buddy Dashboard")
-tab1, tab2 = st.tabs(["Live View", "Demo with Static Data"])
+tab1 = st.tabs(["Live View"])
 
 # ------------------------ Main Refreshing Logic ------------------------
 with tab1:
     st.subheader("Live Trade Visualization")
 
     # Short loop to update a few times before refreshing
-    for _ in range(121):
+    for _ in range(5):
         process_symbol(buddy)
         time.sleep(1)
 
