@@ -56,7 +56,7 @@ class Plotter:
             increasing_line_color='green', decreasing_line_color='red'))
         fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
 
-        #fig.add_hline(y=last_price, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last_price:.2f}")
+        fig.add_hline(y=last_price, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last_price:.2f}")
 
         return fig
 
