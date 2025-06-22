@@ -151,16 +151,6 @@ class StratICT(Strategy):
         if not zones:
             return []
 
-        # Case 1: List of dictionaries
-        # order blocks format -- 
-        # order_blocks.append({
-        #                 "timestamp": prev.name,
-        #                 "type": ob_type,
-        #                 "index": ob_index,
-        #                 "high": ob_high,
-        #                 "low": ob_low
-        #             })
-
         if isinstance(zones[0], dict):
             lows = [float(z["low"]) for z in zones if "low" in z]
             highs = [float(z["high"]) for z in zones if "high" in z]

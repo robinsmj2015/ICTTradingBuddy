@@ -175,7 +175,7 @@ class InnerCircleTradingUtils:
         Score based on pressure imbalance (from volume delta or similar).
         """
         
-        return max(-10, min(10, pressure))
+        return max(-10, min(10, pressure)) if pressure else 0
 
 
     @staticmethod

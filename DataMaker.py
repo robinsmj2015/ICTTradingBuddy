@@ -34,8 +34,6 @@ def make_synthetic_data(last_tick):
         last_tick[key] = int(random.uniform(1, 5))
 
     last_tick["volume"] += int(random.uniform(10, 100)) 
-    
-    
     last_tick["mark"] = round((last_tick["bid"] + last_tick["ask"]) / 2, 2)
     last_tick["open"] = 1000.00
     last_tick["close"] = last_tick["last"]
@@ -47,7 +45,6 @@ def make_synthetic_data(last_tick):
     last_tick["zero_or_five"] = (int(last_tick["last"]) == last_tick["last"]) and (str(last_tick["last"])[-1] in ["0", "5"])
     last_tick["pressure"] = int(last_tick["bid_size"] - last_tick["ask_size"])
     last_tick["momentum"] = last_tick["last"] - last_tick["open"]
-
     last_tick["timestamp"] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
     last_tick["symbol"] = "test"
 
