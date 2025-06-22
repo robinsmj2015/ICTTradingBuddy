@@ -38,7 +38,7 @@ class Plotter:
         self.symbol = symbol
 
     @staticmethod
-    def plot_candles(df: pd.DataFrame, title: str) -> go.Figure:
+    def plot_candles(df: pd.DataFrame, title: str, last: float) -> go.Figure:
         """
         Generate a candlestick chart.
 
@@ -54,7 +54,7 @@ class Plotter:
             x=df.index,
             open=df['open'], high=df['high'], low=df['low'], close=df['close'],
             increasing_line_color='green', decreasing_line_color='red'))
-        last = float(df['close'].iloc[-1])
+        
         fig.add_hline(y=last, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last:.2f}")
         fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
         
@@ -333,16 +333,17 @@ class Plotter:
         rec = self.buddy.recommendation
 
         # Candlestick Charts
+        last = float(self.buddy.candles[1].trackers[0].df['close'].iloc[-1]) or 1000
         col1, col2, col3 = st.columns(3)
         with col1:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True)
+                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price", last), use_container_width=True)
         with col2:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)
+                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price", last), use_container_width=True)
         with col3:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True)
+                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price", last), use_container_width=True)
 
         # Volume Charts
         col4, col5, col6 = st.columns(3)
