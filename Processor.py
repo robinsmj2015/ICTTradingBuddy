@@ -1,5 +1,5 @@
 from DataMaker import make_synthetic_data
-from BinanceBTC import get_last_tick
+from BTCGetter import get_last_tick
 
 
 def process_symbol(buddy):
