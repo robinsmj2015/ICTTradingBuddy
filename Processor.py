@@ -2,7 +2,7 @@ from DataMaker import make_synthetic_data
 from BTCGetter import get_last_tick
 
 
-def process_symbol(buddy):
+def process_symbol(buddy, i):
     """
     Handles one iteration of data ingestion, signal generation, and trade logging for a symbol.
 
@@ -15,6 +15,7 @@ def process_symbol(buddy):
 
     Args:
         buddy (object): Assistant-like object managing state, strategy, trader, candles, etc.
+        i (int): iteration number of loop
         
     """
 
@@ -33,6 +34,11 @@ def process_symbol(buddy):
 
     # Get trade recommendation
     buddy.strat.make_rec()
+
+
+    # plot render
+    if i == 0:
+        buddy.plotter.render_all()  
 
     
     rec = buddy.recommendation
