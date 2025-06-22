@@ -82,9 +82,5 @@ with tab1:
         process_symbol(buddy, i)
         time.sleep(1)
 
-    #st.rerun()
-    st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
-    
-
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)

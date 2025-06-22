@@ -31,7 +31,6 @@ class CandleTracker:
             "symbol", "duration", "time_start", "time_end",
             "open", "close", "high", "low", "volume",
             "rsi_14", "stoch_rsi", "momentum_9",
-            "MACD_12_26_9", "MACDh_12_26_9", "MACDs_12_26_9",
             "ema_9", "ema_20", "sma_9", "sma_20",
             "vwma_20", "VWAP"
         ])
@@ -80,7 +79,6 @@ class CandleTracker:
                 "low": tick_price,
                 "volume": volume_delta,
                 "rsi_14": None, "stoch_rsi": None, "momentum_9": None,
-                "MACD_12_26_9": None, "MACDh_12_26_9": None, "MACDs_12_26_9": None,
                 "ema_9": None, "ema_20": None, "sma_9": None, "sma_20": None,
                 "vwma_20": None, "VWAP": None
             }
@@ -107,4 +105,6 @@ class CandleTracker:
             data_gather_time (pd.Timestamp): Reference time used for indicator calculation.
         """
         indicators_df = compute_indicators(self.df, data_gather_time)
+        indicators_df = indicators_df.reindex(self.df.index)
         self.df.update(indicators_df)
+

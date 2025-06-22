@@ -14,6 +14,8 @@ import pandas as pd
 import streamlit as st
 import time
 from typing import Dict, List, Any
+import datetime
+
 
 
 class Plotter:
@@ -36,7 +38,7 @@ class Plotter:
         self.symbol = symbol
 
     @staticmethod
-    def plot_candles(df: pd.DataFrame, title: str) -> go.Figure:
+    def plot_candles(df: pd.DataFrame, title: str, last_price: float) -> go.Figure:
         """
         Generate a candlestick chart.
 
@@ -53,6 +55,10 @@ class Plotter:
             open=df['open'], high=df['high'], low=df['low'], close=df['close'],
             increasing_line_color='green', decreasing_line_color='red'))
         fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
+
+        fig.add_hline(y=last_price, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last_price}", annotation_position="top left")
+
+
         return fig
 
     @staticmethod
@@ -153,6 +159,36 @@ class Plotter:
             }
         ))
         return fig
+    
+    @staticmethod
+    def plot_speedometer_subs(val: int, title: str) -> go.Figure:
+        """
+        Plot recommendation strength on a gauge.
+
+        Args:
+            val (float): Recommendation strength.
+
+        Returns:
+            go.Figure: Gauge chart.
+        """
+        fig = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=val,
+            title={'text': f"{title}"},
+            gauge={
+                'axis': {'range': [-1, 1]},
+                'bar': {'color': "black"},
+                'steps': [
+                    {'range': [-1, 0], 'color': "red"},
+                    {'range': [0, 0], 'color': "gold"},
+                    {'range': [0, 1], 'color': "green"},
+                ]
+            }
+        ))
+        return fig
+
+
+
 
     @staticmethod
     def plot_indicator_bars(indicators_dict: Dict[str, float]) -> go.Figure:
@@ -299,18 +335,19 @@ class Plotter:
 
         unique_suffix = str(int(time.time() * 1000)) 
         rec = self.buddy.recommendation
+        last = self.buddy.last_tick.get("last")
 
         # Candlestick Charts
         col1, col2, col3 = st.columns(3)
         with col1:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True)#, key=f"1m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price", last), use_container_width=True)#, key=f"1m price {unique_suffix}")
         with col2:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)#, key=f"3m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price", last), use_container_width=True)#, key=f"3m price {unique_suffix}")
         with col3:
             with st.empty().container():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True)#, key=f"5m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price", last), use_container_width=True)#, key=f"5m price {unique_suffix}")
 
 
         # Volume Charts
@@ -354,14 +391,34 @@ class Plotter:
                 st.plotly_chart(self.plot_pressure_meter(rec.ict_indicators.get("pressure_imbalance", 0)), use_container_width=True)#, key=f"pressure meter {unique_suffix}")
 
         # Indicator Bars
-        bars = rec.ict_indicators.copy() or {}
-        bars["indicators"] = rec.other_indicators.get("inds", 0)
-        if "fv_dislocation" not in bars:
-            bars["fv_dislocation"] = 0
-        for key in list(bars):
-            if key not in ("indicators", "fv_dislocation"):
-                del bars[key]
-            
-        with st.empty().container():
-            st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True)#, key=f"indicators {unique_suffix}")
+        fv_disloc = rec.ict_indicators.get("fv_dislocation", 0)
+        fv_disloc = int(max(-1, min(1, fv_disloc)))
+        subs = rec.other_indicators.get("subindicators", {})
+
+        g4, g5, g6, g7, g8, g9 = st.columns(6)
+
+        with g4:
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("vwap_position", 0), "VWAP"), use_container_width=True)
+        with g5:    
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("ema_cross", 0), "EMA"), use_container_width=True)
+        with g6:    
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("momentum", 0), "Session Momentum"), use_container_width=True)
+        with g7:    
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("stoch_rsi", 0), "Stochastic RSI"), use_container_width=True)
+        with g8:    
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("rsi", 0), "RSI"), use_container_width=True)
+
+        with g9:    
+            with st.empty().container():
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("rsi", 0), "FV Dislocation"), use_container_width=True)
+       
+       
+
+        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
+
 

@@ -79,7 +79,7 @@ class StratICT(Strategy):
             ob_score = self.ict_utils.score_order_blocks(price, order_blocks)
             imbalance = self.ict_utils.score_pressure_bias(tick.get("pressure"))
             dislocation = self.ict_utils.score_fv_dislocation(tick.get("fair_value_delta"))
-            ind_score = self.get_inds(candle)
+            ind_score, subindicators = self.get_inds(candle)
 
             session = self.ict_utils.ict_scalping_confidence(tick["timestamp"])
             volume_spike = self.score_volume_spike(df)
@@ -128,7 +128,7 @@ class StratICT(Strategy):
             "fv_dislocation": dislocation,
             "atr": atr_val
         }
-        rec.other_indicators = {"inds": ind_score}
+        rec.other_indicators = {"inds": ind_score, "subindicators": subindicators}
         rec.ict_markers = {
             "liq_pools": all_liq,
             "fvg_zones": all_fvgs,

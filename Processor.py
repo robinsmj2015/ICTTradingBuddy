@@ -29,8 +29,6 @@ def process_symbol(buddy, i):
     # Update each candle timeframe with the tick
     for candle in buddy.candles.values():
         candle.add_tick(buddy.last_tick)
-    
-
 
     # Get trade recommendation
     buddy.strat.make_rec()
@@ -38,25 +36,25 @@ def process_symbol(buddy, i):
 
     # plot render
     if i == 0:
-        buddy.plotter.render_all()  
+        buddy.plotter.render_all()
 
     
-    rec = buddy.recommendation
+    # rec = buddy.recommendation
 
-    # Prepare trade data for logging
-    rec_data = {
-        "is_long": True if rec.position == "long" else None if rec.position is None else "short",
-        "confidence": rec.val,
-        "entry": rec.entry,
-        "stop_loss": rec.sl,
-        "timeout": rec.timeout,
-        "take_profit": rec.tp,
-        "num_contracts": rec.num_contracts 
-    }
+    # # Prepare trade data for logging
+    # rec_data = {
+    #     "is_long": True if rec.position == "long" else None if rec.position is None else "short",
+    #     "confidence": rec.val,
+    #     "entry": rec.entry,
+    #     "stop_loss": rec.sl,
+    #     "timeout": rec.timeout,
+    #     "take_profit": rec.tp,
+    #     "num_contracts": rec.num_contracts 
+    # }
 
-    # Write recommendation to buffer
-    buddy.buff.write_recs_to_buff(rec_data)
-    buddy.trader.check_trading(buddy.data_gather_time)
+    # # Write recommendation to buffer
+    # buddy.buff.write_recs_to_buff(rec_data)
+    # buddy.trader.check_trading(buddy.data_gather_time)
     
 
 

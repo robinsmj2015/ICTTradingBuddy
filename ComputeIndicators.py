@@ -3,7 +3,7 @@ ComputeIndicators.py
 
 This module contains utility functions to compute technical indicators on candle data
 and to generate a numeric score summarizing indicator alignment for trading decisions.
-It uses `pandas_ta` for computing standard indicators such as RSI, EMA, VWAP, MACD, etc.
+It uses `pandas_ta` for computing standard indicators such as RSI, EMA, VWAP, etc.
 """
 
 import pandas as pd
@@ -25,6 +25,7 @@ def compute_indicators(df: pd.DataFrame, data_gather_time: int) -> pd.DataFrame:
         return df
 
     # Work on a copy of the DataFrame
+    df = df.reset_index(drop=True).copy()
     df = df.copy()
 
     # Ensure datetime index is sorted
@@ -58,19 +59,12 @@ def compute_indicators(df: pd.DataFrame, data_gather_time: int) -> pd.DataFrame:
                 recent['sma_20'] = ta.sma(recent['close'], length=20)
                 recent['vwma_20'] = ta.vwma(recent['close'], recent['volume'], length=20)
 
-                if len(recent) > 26:
-                    pass  # MACD calculation is currently skipped
-                    # Uncomment to enable:
-                    # macd = ta.macd(recent['close'], fast=12, slow=26, signal=9)
-                    # recent['MACD_12_26_9'] = macd.iloc[:, 0]
-                    # recent['MACDh_12_26_9'] = macd.iloc[:, 1]
-                    # recent['MACDs_12_26_9'] = macd.iloc[:, 2]
+
 
     # Copy most recent indicator values to the last row of the original DataFrame
     last = recent.iloc[-1]
     for col in [
         'rsi_14', 'stoch_rsi', 'momentum_9',
-        'MACD_12_26_9', 'MACDh_12_26_9', 'MACDs_12_26_9',
         'ema_9', 'ema_20', 'sma_9', 'sma_20',
         'vwma_20', 'VWAP'
     ]:
@@ -78,67 +72,82 @@ def compute_indicators(df: pd.DataFrame, data_gather_time: int) -> pd.DataFrame:
 
     return df
 
-
-def _get_inds_(candle: dict) -> int:
+def _get_inds_(candle: dict) -> tuple[int, dict]:
     """
-    Computes a score based on technical indicators and pivot levels for a given candle.
+    Computes a score based on technical indicators and pivot levels for a given candle,
+    and returns a subindicator dictionary with bullish (1), bearish (-1), or neutral (0) signals.
 
     Args:
         candle (dict): Dictionary of indicator values from a candle row.
 
     Returns:
-        int: A signal score between -10 (strong short) and +10 (strong long).
+        tuple[int, dict]: A signal score between -10 and +10, and a dictionary of subindicator signals.
     """
     score = 0
+    subindicators = {}
 
     # RSI
     rsi = candle.get("rsi_14", 50)
-    if rsi is not None:
-        if rsi < 30:
-            score += 2
-        elif rsi > 70:
-            score -= 2
+    if rsi < 30:
+        score += 2
+        subindicators["rsi"] = 1
+    elif rsi > 70:
+        score -= 2
+        subindicators["rsi"] = -1
+    else:
+        subindicators["rsi"] = 0
 
     # Stochastic RSI
     stoch = candle.get("stoch_rsi", 0.5)
-    if stoch is not None:
-        if stoch < 0.2:
-            score += 1.5
-        elif stoch > 0.8:
-            score -= 1.5
+    if stoch < 0.2:
+        score += 2
+        subindicators["stoch_rsi"] = 1
+    elif stoch > 0.8:
+        score -= 2
+        subindicators["stoch_rsi"] = -1
+    else:
+        subindicators["stoch_rsi"] = 0
 
     # Momentum
     momentum = candle.get("momentum_9", 0)
-    if momentum is not None:
-        if momentum > 0:
-            score += 2
-        elif momentum < 0:
-            score -= 2
+    if momentum > 0:
+        score += 2
+        subindicators["momentum"] = 1
+    elif momentum < 0:
+        score -= 2
+        subindicators["momentum"] = -1
+    else:
+        subindicators["momentum"] = 0
 
-    # MACD histogram
-    macdh = candle.get("MACDh_12_26_9", 0)
-    if macdh is not None:
-        if macdh > 0:
-            score += 1
-        elif macdh < 0:
-            score -= 1
 
     # EMA crossover
     ema_fast = candle.get("ema_9")
     ema_slow = candle.get("ema_20")
-    if ema_fast and ema_slow:
+    if ema_fast is not None and ema_slow is not None:
         if ema_fast > ema_slow:
-            score += 1
+            score += 2
+            subindicators["ema_cross"] = 1
         elif ema_fast < ema_slow:
-            score -= 1
+            score -= 2
+            subindicators["ema_cross"] = -1
+        else:
+            subindicators["ema_cross"] = 0
+    else:
+        subindicators["ema_cross"] = 0
 
     # VWAP position
     close = candle.get("close")
     vwap = candle.get("VWAP")
-    if close and vwap:
+    if close is not None and vwap is not None:
         if close > vwap:
-            score += 1
+            score += 2
+            subindicators["vwap_position"] = 1
         elif close < vwap:
-            score -= 1
+            score -= 2
+            subindicators["vwap_position"] = -1
+        else:
+            subindicators["vwap_position"] = 0
+    else:
+        subindicators["vwap_position"] = 0
 
-    return max(-10, min(10, round(score)))
+    return max(-10, min(10, round(score))), subindicators
