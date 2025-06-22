@@ -96,7 +96,7 @@ class Plotter:
                 'axis': {'range': [-11, 11]},
                 'bar': {'color': "black"},
                 'steps': [
-                    {'range': [-11 -5], 'color': "red"},
+                    {'range': [-11, -5], 'color': "red"},
                     {'range': [-5, 5], 'color': "gold"},
                     {'range': [5, 11], 'color': "green"},
                 ]
