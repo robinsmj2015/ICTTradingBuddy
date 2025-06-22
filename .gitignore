@@ -3,3 +3,4 @@
 venv/
 not_implemented/
 archive/
+.venv
