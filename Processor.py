@@ -1,4 +1,5 @@
 from DataMaker import make_synthetic_data
+from BinanceBTC import get_last_tick
 
 
 def process_symbol(buddy):
@@ -18,7 +19,9 @@ def process_symbol(buddy):
     """
 
     # Create synthetic data
-    buddy.last_tick = make_synthetic_data(buddy.last_tick)
+    # buddy.last_tick = make_synthetic_data(buddy.last_tick)
+
+    buddy.last_tick = get_last_tick()
 
     # Update each candle timeframe with the tick
     for candle in buddy.candles.values():
