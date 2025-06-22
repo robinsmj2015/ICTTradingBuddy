@@ -236,8 +236,6 @@ class Plotter:
 
         elif title == "FVGs":
             # {short: [(low1, high1)...], long: [(low2, high2)...]}
-            if zones:
-                st.write(zones)
             for position in zones.values():
                 for tup in position:
                     reds.append(tup[0])

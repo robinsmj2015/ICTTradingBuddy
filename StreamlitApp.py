@@ -35,7 +35,7 @@ if st.session_state.cold_start:
     st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data... This will take ~120 seconds")
 
 
-st_autorefresh(interval=10 * 1000, key="refresh")  # every 10 seconds
+#st_autorefresh(interval=10 * 1000, key="refresh")  # every 10 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -50,7 +50,7 @@ def reset_at_midnight():
         except FileNotFoundError:
             pass
         st.session_state.clear()
-        st.rerun()
+        #st.rerun()
 
 
 reset_at_midnight()
@@ -86,5 +86,5 @@ with tab1:
                 pickle.dump(buddy, f)
         
         
-        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
-        #st.rerun()
+        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
+        st.rerun()
