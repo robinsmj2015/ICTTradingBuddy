@@ -87,7 +87,7 @@ def _get_inds_(candle: dict) -> tuple[int, dict]:
     subindicators = {}
 
     # RSI
-    rsi = candle.get("rsi_14", 50)
+    rsi = candle.get("rsi_14", 50) or 50
     if rsi < 30:
         score += 2
         subindicators["rsi"] = 1
@@ -98,7 +98,7 @@ def _get_inds_(candle: dict) -> tuple[int, dict]:
         subindicators["rsi"] = 0
 
     # Stochastic RSI
-    stoch = candle.get("stoch_rsi", 0.5)
+    stoch = candle.get("stoch_rsi", 0.5) or 0.5
     if stoch < 0.2:
         score += 2
         subindicators["stoch_rsi"] = 1
@@ -109,7 +109,7 @@ def _get_inds_(candle: dict) -> tuple[int, dict]:
         subindicators["stoch_rsi"] = 0
 
     # Momentum
-    momentum = candle.get("momentum_9", 0)
+    momentum = candle.get("momentum_9", 0) or 0
     if momentum > 0:
         score += 2
         subindicators["momentum"] = 1
