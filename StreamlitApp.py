@@ -35,7 +35,7 @@ if st.session_state.cold_start:
     st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data... This will take ~120 seconds")
 
 
-st_autorefresh(interval=5000, key="refresh")  # every 10 seconds
+st_autorefresh(interval=10 * 1000, key="refresh")  # every 10 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -74,12 +74,13 @@ tab1, = st.tabs(["Live View"])
 
 # ------------------------ Main Refreshing Logic ------------------------
 with tab1:
+    #with st.empty().container():
     st.subheader("Live Data Simulation")
 
     # Short loop to update a few times before refreshing
     for _ in range(5):
         process_symbol(buddy)
-        time.sleep(1)
+        time.sleep(2)
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
