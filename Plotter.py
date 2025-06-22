@@ -120,8 +120,8 @@ class Plotter:
                 'steps': [
                     {'range': [0, 16], 'color': "white"},
                     {'range': [16, 32], 'color': "whitesmoke"},
-                    {'range': [32, 64], 'color': "lightgray"},
-                    {'range': [64, 128], 'color': "darkgray"},
+                    {'range': [32, 64], 'color': "darkgray"},
+                    {'range': [64, 128], 'color': "lightgray"},
                 ]
             }
         ))

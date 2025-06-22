@@ -35,7 +35,7 @@ if st.session_state.cold_start:
     st.warning("⚠️ Session was reset — dashboard restarted. Reinitializing data... This will take ~120 seconds")
 
 
-st_autorefresh(interval=10000, key="refresh")  # every 10 seconds
+st_autorefresh(interval=5000, key="refresh")  # every 10 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -76,16 +76,21 @@ tab1, = st.tabs(["Live View"])
 with tab1:
     st.subheader("Live Data Simulation")
 
+    placeholder = st.empty()
+
     # Short loop to update a few times before refreshing
-    for _ in range(3):
+    for _ in range(5):
         process_symbol(buddy)
         time.sleep(1)
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
 
-    # Trigger a warm refresh after delay
     
+    with placeholder.container():
+        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
+    
+    # Trigger a warm refresh after delay
     st.rerun()
 
     # from streamlit_autorefresh import st_autorefresh
