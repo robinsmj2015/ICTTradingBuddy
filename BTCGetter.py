@@ -7,26 +7,26 @@ import random
 
 def get_last_tick(symbol="bitcoin"):
     try:
-        price_data = requests.get(
-            f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
-        ).json()
+        # price_data = requests.get(
+        #     f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
+        # ).json()
 
         market_data = requests.get(
             f"https://api.coingecko.com/api/v3/coins/{symbol}"
         ).json()
 
-        # Optional OHLC if needed (1-minute candles, limited to 1 day)
-        ohlc_data = requests.get(
-            f"https://api.coingecko.com/api/v3/coins/{symbol}/ohlc?vs_currency=usd&days=1"
-        ).json()
+        # # Optional OHLC if needed (1-minute candles, limited to 1 day)
+        # ohlc_data = requests.get(
+        #     f"https://api.coingecko.com/api/v3/coins/{symbol}/ohlc?vs_currency=usd&days=1"
+        # ).json()
 
     except Exception as e:
         st.error(f"Failed to fetch CoinGecko data: {e}")
         return {}
 
-    st.write(price_data)
+    #st.write(price_data)
     st.write(market_data)
-    st.write(ohlc_data[:2])  # Show first couple of OHLC entries
+    #st.write(ohlc_data[:2])  # Show first couple of OHLC entries
 
     time.sleep(30)
 
