@@ -87,5 +87,3 @@ with tab1:
     with st.empty().container():
         st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
     
-
-fix bloating with refreshes... etc
