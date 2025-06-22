@@ -9,8 +9,6 @@ def process_symbol(buddy, i):
     
     - Adds tick to buffer and candles
     - Updates visualizer
-    - Makes a strategy-based recommendation
-    - Writes trade data to dashboard 
 
     Args:
         buddy (object): Assistant-like object managing state, strategy, trader, candles, etc.
@@ -31,8 +29,3 @@ def process_symbol(buddy, i):
     # plot render
     if i == 0:
         buddy.plotter.render_all()
-
-   
-    
-
-

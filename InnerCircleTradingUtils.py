@@ -48,7 +48,10 @@ class InnerCircleTradingUtils:
             float: The latest ATR value (rounded to 1 decimal). Defaults to 10 if data is insufficient.
         """
         # Shift close to get previous candle's close
-        df["previous_close"] = df["close"].shift(1)
+        try:
+            df["previous_close"] = df["close"].shift(1)
+        except:
+            return 10.0
 
         # Calculate true range (TR) per row
         df["tr"] = df[["high", "low", "previous_close"]].apply(
