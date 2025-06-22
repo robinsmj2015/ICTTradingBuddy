@@ -4,6 +4,7 @@ from TakeProfit import TakeProfit
 from EntryMaker import EntryMaker
 from ComputeIndicators import _get_inds_
 import numpy as np
+import pandas as pd
 
 
 class StratICT(Strategy):
@@ -210,7 +211,7 @@ class StratICT(Strategy):
         if len(df) < 4: return 0
         current_vol = df.iloc[-1]["volume"]
         avg_vol = df.iloc[-4:-1]["volume"].mean()
-        if avg_vol == 0: return 0
+        if avg_vol == 0 or pd.isna(avg_vol) or pd.isna(current_vol): return 0
         ratio = current_vol / avg_vol
         scaled = min(ratio, 2.0)
         score = int(round((scaled - 1.0) / 1.0 * 10))

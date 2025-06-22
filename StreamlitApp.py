@@ -76,8 +76,6 @@ tab1, = st.tabs(["Live View"])
 with tab1:
     st.subheader("Live Data Simulation")
 
-    placeholder = st.empty()
-
     # Short loop to update a few times before refreshing
     for _ in range(5):
         process_symbol(buddy)
@@ -86,7 +84,8 @@ with tab1:
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
     
-    with placeholder.container():
+    with st.empty().container():
         st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
     
 
+fix bloating with refreshes... etc
