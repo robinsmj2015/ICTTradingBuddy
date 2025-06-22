@@ -120,8 +120,8 @@ class Plotter:
                 'steps': [
                     {'range': [0, 16], 'color': "white"},
                     {'range': [16, 32], 'color': "whitesmoke"},
-                    {'range': [32, 64], 'color': "darkgray"},
-                    {'range': [64, 128], 'color': "lightgray"},
+                    {'range': [32, 64], 'color': "lightgray"},
+                    {'range': [64, 128], 'color': "darkgray"},
                 ]
             }
         ))
@@ -305,26 +305,26 @@ class Plotter:
         col1, col2, col3 = st.columns(3)
         with col1:
             with st.empty():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True)#, key=f"1m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[1].trackers[0].df.tail(15), "1m Price"), use_container_width=True, key=f"1m price {unique_suffix}")
         with col2:
             with st.empty():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)#, key=f"3m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True, key=f"3m price {unique_suffix}")
         with col3:
             with st.empty():
-                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True)#, key=f"5m price {unique_suffix}")
+                st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True, key=f"5m price {unique_suffix}")
 
 
         # Volume Charts
         col4, col5, col6 = st.columns(3)
         with col4:
             with st.empty():
-                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True)#, key=f"1m volume {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True, key=f"1m volume {unique_suffix}")
         with col5:
             with st.empty():
-                st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True)#, key=f"3m volume {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True, key=f"3m volume {unique_suffix}")
         with col6:
             with st.empty():
-                st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True)#, key=f"5m volume {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[5].df.tail(15), "5m Volume"), use_container_width=True, key=f"5m volume {unique_suffix}")
 
 
 
@@ -333,33 +333,36 @@ class Plotter:
         c1, c2, c3 = st.columns(3)
         with c1:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["obs"], "Order Blocks"), use_container_width=True)#, key=f"OB {unique_suffix}")
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["obs"], "Order Blocks"), use_container_width=True, key=f"OB {unique_suffix}")
         with c2:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["liq_pools"], "Liquidity Sweeps"), use_container_width=True)#, key=f"LS {unique_suffix}")
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["liq_pools"], "Liquidity Sweeps"), use_container_width=True, key=f"LS {unique_suffix}")
         with c3:
             with st.empty():
-                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"), use_container_width=True)#, key=f"FVG {unique_suffix}")
+                st.plotly_chart(self.plot_zone_ladder(rec.ict_markers["fvg_zones"], "FVGs"), use_container_width=True, key=f"FVG {unique_suffix}")
 
 
         # Gauges
         g1, g2, g3 = st.columns(3)
         with g1:
             with st.empty():
-                st.plotly_chart(self.plot_speedometer(rec.val or 0), use_container_width=True)#, key=f"speedometer {unique_suffix}")
+                st.plotly_chart(self.plot_speedometer(rec.val or 0), use_container_width=True, key=f"speedometer {unique_suffix}")
         with g2:
             with st.empty():
-                st.plotly_chart(self.plot_atr_meter(rec.ict_indicators.get("atr", 0)), use_container_width=True)#, key=f"atr_meter {unique_suffix}")
+                st.plotly_chart(self.plot_atr_meter(rec.ict_indicators.get("atr", 0)), use_container_width=True, key=f"atr_meter {unique_suffix}")
         with g3:
             with st.empty():
-                st.plotly_chart(self.plot_pressure_meter(rec.ict_indicators.get("pressure_imbalance", 0)), use_container_width=True)#, key=f"pressure meter {unique_suffix}")
+                st.plotly_chart(self.plot_pressure_meter(rec.ict_indicators.get("pressure_imbalance", 0)), use_container_width=True, key=f"pressure meter {unique_suffix}")
 
         # Indicator Bars
         bars = rec.ict_indicators.copy() or {}
         bars["indicators"] = rec.other_indicators.get("inds", 0)
-        default_keys = ["fv_dislocation", "indicators"]
-        for k in default_keys:
-            bars.setdefault(k, 0)
+        if "fv_dislocation" not in bars:
+            bars["fv_dislocation"] = 0
+        for key in list(bars):
+            if key not in ("indicators", "fv_dislocation"):
+                del bars[key]
+            
         with st.empty():
-            st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True)#, key=f"indicators {unique_suffix}")
+            st.plotly_chart(self.plot_indicator_bars(bars), use_container_width=True, key=f"indicators {unique_suffix}")
 

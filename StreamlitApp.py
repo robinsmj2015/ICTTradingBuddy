@@ -85,15 +85,8 @@ with tab1:
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
-
     
     with placeholder.container():
         st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
     
-    # Trigger a warm refresh after delay
-    st.rerun()
-
-    # from streamlit_autorefresh import st_autorefresh
-    # st_autorefresh(interval=10000, key="refresh")  # 10s
-
 
