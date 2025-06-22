@@ -30,7 +30,6 @@ class CandleTracker:
         self.df = pd.DataFrame(columns=[
             "symbol", "duration", "time_start", "time_end",
             "open", "close", "high", "low", "volume",
-            # Indicators
             "rsi_14", "stoch_rsi", "momentum_9",
             "MACD_12_26_9", "MACDh_12_26_9", "MACDs_12_26_9",
             "ema_9", "ema_20", "sma_9", "sma_20",

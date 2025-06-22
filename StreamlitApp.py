@@ -90,3 +90,5 @@ with tab1:
 
     # from streamlit_autorefresh import st_autorefresh
     # st_autorefresh(interval=10000, key="refresh")  # 10s
+
+
