@@ -404,16 +404,16 @@ class Plotter:
                 st.plotly_chart(self.plot_speedometer_subs(subs.get("ema_cross", 0), "EMA"), use_container_width=True)
         with g6:    
             with st.empty().container():
-                st.plotly_chart(self.plot_speedometer_subs(subs.get("momentum", 0), "Session /nMomentum"), use_container_width=True)
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("momentum", 0), "Session\nMomentum"), use_container_width=True)
         with g7:    
             with st.empty().container():
-                st.plotly_chart(self.plot_speedometer_subs(subs.get("stoch_rsi", 0), "Stochastic RSI"), use_container_width=True)
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("stoch_rsi", 0), "Stochastic\nRSI"), use_container_width=True)
         with g8:    
             with st.empty().container():
                 st.plotly_chart(self.plot_speedometer_subs(subs.get("rsi", 0), "RSI"), use_container_width=True)
         with g9:    
             with st.empty().container():
-                st.plotly_chart(self.plot_speedometer_subs(subs.get("rsi", 0), "FV Dislocation"), use_container_width=True)
+                st.plotly_chart(self.plot_speedometer_subs(fv_disloc, "FV\nDislocation"), use_container_width=True)
        
        
         st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
