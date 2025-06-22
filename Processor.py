@@ -51,6 +51,6 @@ def process_symbol(buddy):
     # Write recommendation to buffer
     buddy.buff.write_recs_to_buff(rec_data)
     buddy.trader.check_trading(buddy.data_gather_time)
-    buddy.plotter.render_all()  
+    
 
 

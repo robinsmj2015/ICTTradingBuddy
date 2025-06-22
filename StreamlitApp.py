@@ -86,5 +86,6 @@ with tab1:
                 pickle.dump(buddy, f)
         
         
-        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
         st.rerun()
+        st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
+        buddy.plotter.render_all()  
