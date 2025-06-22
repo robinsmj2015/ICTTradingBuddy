@@ -93,12 +93,12 @@ class Plotter:
             value=p,
             title={'text': "Pressure (Bid size - ask size)"},
             gauge={
-                'axis': {'range': [-10, 10]},
+                'axis': {'range': [-11, 11]},
                 'bar': {'color': "black"},
                 'steps': [
-                    {'range': [-10, -5], 'color': "red"},
+                    {'range': [-11 -5], 'color': "red"},
                     {'range': [-5, 5], 'color': "gold"},
-                    {'range': [5, 10], 'color': "green"},
+                    {'range': [5, 11], 'color': "green"},
                 ]
             }
         ))
@@ -148,12 +148,12 @@ class Plotter:
             value=val,
             title={'text': "Recommendation Strength"},
             gauge={
-                'axis': {'range': [-10, 10]},
+                'axis': {'range': [-11, 11]},
                 'bar': {'color': "black"},
                 'steps': [
-                    {'range': [-10, -5], 'color': "red"},
+                    {'range': [-11, -5], 'color': "red"},
                     {'range': [-5, 5], 'color': "gold"},
-                    {'range': [5, 10], 'color': "green"},
+                    {'range': [5, 11], 'color': "green"},
                 ]
             }
         ))
@@ -175,19 +175,16 @@ class Plotter:
             value=val,
             title={'text': f"{title}"},
             gauge={
-                'axis': {'range': [-1, 1]},
+                'axis': {'range': [-1.25, 1.25]},
                 'bar': {'color': "black"},
                 'steps': [
-                    {'range': [-1, -.25], 'color': "red"},
+                    {'range': [-1.25, -.25], 'color': "red"},
                     {'range': [-.25, .25], 'color': "gold"},
-                    {'range': [.25, 1], 'color': "green"},
+                    {'range': [.25, 1.25], 'color': "green"},
                 ]
             }
         ))
         return fig
-
-
-
 
     @staticmethod
     def plot_indicator_bars(indicators_dict: Dict[str, float]) -> go.Figure:
@@ -404,7 +401,7 @@ class Plotter:
                 st.plotly_chart(self.plot_speedometer_subs(subs.get("ema_cross", 0), "EMA"), use_container_width=True)
         with g6:    
             with st.empty().container():
-                st.plotly_chart(self.plot_speedometer_subs(subs.get("momentum", 0), "Session\nMomentum"), use_container_width=True)
+                st.plotly_chart(self.plot_speedometer_subs(subs.get("momentum", 0), "Session\nMom."), use_container_width=True)
         with g7:    
             with st.empty().container():
                 st.plotly_chart(self.plot_speedometer_subs(subs.get("stoch_rsi", 0), "Stochastic\nRSI"), use_container_width=True)
