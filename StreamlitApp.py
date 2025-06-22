@@ -80,7 +80,7 @@ with tab1:
     # Short loop to update a few times before refreshing
     for i in range(9):
         process_symbol(buddy, i)
-        time.sleep(2)
+        time.sleep(2.1)
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
