@@ -4,10 +4,9 @@ from datetime import datetime
 def get_last_tick(symbol="BTCUSDT"):
     ticker = requests.get(f"https://api.binance.com/api/v3/ticker/24hr?symbol={symbol}").json()
     book = requests.get(f"https://api.binance.com/api/v3/ticker/bookTicker?symbol={symbol}").json()
-    trade = requests.get(f"https://api.binance.com/api/v3/trades?symbol={symbol}&limit=1").json()[0]
+    trade = requests.get(f"https://api.binance.com/api/v3/trades?symbol={symbol}&limit=1").json()
     data = requests.get(f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={symbol}").json()
      
-
     last_tick = {
         "last": float(trade["price"]),
         "ask": float(book["askPrice"]),

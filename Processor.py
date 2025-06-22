@@ -18,7 +18,9 @@ def process_symbol(buddy):
         
     """
 
-    # Create synthetic data
+    # Get tick data
+
+    # synthetic
     # buddy.last_tick = make_synthetic_data(buddy.last_tick)
 
     buddy.last_tick = get_last_tick()
