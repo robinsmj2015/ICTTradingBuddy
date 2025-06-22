@@ -74,17 +74,17 @@ tab1, = st.tabs(["Live View"])
 
 # ------------------------ Main Refreshing Logic ------------------------
 with tab1:
-    #with st.empty().container():
-    st.subheader("Live Data Simulation")
-
-    # Short loop to update a few times before refreshing
-    for _ in range(5):
-        process_symbol(buddy)
-        time.sleep(2)
-
-    with open("buddy.pkl", "wb") as f:
-            pickle.dump(buddy, f)
-    
     with st.empty().container():
+        st.subheader("Live Data Simulation")
+
+        # Short loop to update a few times before refreshing
+        for _ in range(5):
+            process_symbol(buddy)
+            time.sleep(2)
+
+        with open("buddy.pkl", "wb") as f:
+                pickle.dump(buddy, f)
+        
+        
         st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')}")
-    
+        #st.rerun()
