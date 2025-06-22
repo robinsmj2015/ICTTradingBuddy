@@ -54,9 +54,10 @@ class Plotter:
             x=df.index,
             open=df['open'], high=df['high'], low=df['low'], close=df['close'],
             increasing_line_color='green', decreasing_line_color='red'))
-        fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
         last = float(df['close'].iloc[-1])
         fig.add_hline(y=last, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last:.2f}")
+        fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
+        
 
         return fig
 
@@ -328,7 +329,7 @@ class Plotter:
             st.write(".")
             return
 
-        unique_suffix = str(int(time.time() * 1000)) 
+        
         rec = self.buddy.recommendation
 
         # Candlestick Charts
@@ -339,6 +340,7 @@ class Plotter:
         with col2:
             with st.empty().container():
                 st.plotly_chart(self.plot_candles(self.buddy.candles[3].df.tail(15), "3m Price"), use_container_width=True)
+        with col3:
             with st.empty().container():
                 st.plotly_chart(self.plot_candles(self.buddy.candles[5].df.tail(15), "5m Price"), use_container_width=True)
 
