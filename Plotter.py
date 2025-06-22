@@ -55,8 +55,8 @@ class Plotter:
             open=df['open'], high=df['high'], low=df['low'], close=df['close'],
             increasing_line_color='green', decreasing_line_color='red'))
         fig.update_layout(title=title, xaxis_rangeslider_visible=False, xaxis_title="Time (UTC)", yaxis_title="Price ($)")
-        last = df['close'].iloc[-1]
-        fig.add_hline(y=df['close'], line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last:.2f}")
+        last = float(df['close'].iloc[-1])
+        fig.add_hline(y=last, line_dash="dash", line_color="blue", annotation_text=f"Last Price: {last:.2f}")
 
         return fig
 
