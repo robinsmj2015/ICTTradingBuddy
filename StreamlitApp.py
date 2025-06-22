@@ -78,14 +78,13 @@ with tab1:
     st.subheader("Live Data Simulation")
 
     # Short loop to update a few times before refreshing
-    for _ in range(5):
+    for _ in range(10):
         process_symbol(buddy)
-        time.sleep(2)
+        time.sleep(1)
 
-    with open("buddy.pkl", "wb") as f:
-            pickle.dump(buddy, f)
-    
-    
     #st.rerun()
     st.markdown(f"Last updated: {datetime.datetime.now().strftime('%H:%M:%S')} UTC")
     buddy.plotter.render_all()  
+
+    with open("buddy.pkl", "wb") as f:
+            pickle.dump(buddy, f)
