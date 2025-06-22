@@ -25,7 +25,7 @@ def compute_indicators(df: pd.DataFrame, data_gather_time: int) -> pd.DataFrame:
         return df
 
     # Work on a copy of the DataFrame
-    df = df.reset_index(drop=True).copy()
+    #df = df.reset_index(drop=True).copy()
     df = df.copy()
 
     # Ensure datetime index is sorted

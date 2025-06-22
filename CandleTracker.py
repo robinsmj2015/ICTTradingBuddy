@@ -105,6 +105,6 @@ class CandleTracker:
             data_gather_time (pd.Timestamp): Reference time used for indicator calculation.
         """
         indicators_df = compute_indicators(self.df, data_gather_time)
-        indicators_df = indicators_df.reindex(self.df.index)
+        #indicators_df = indicators_df.reindex(self.df.index)
         self.df.update(indicators_df)
 
