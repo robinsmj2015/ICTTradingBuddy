@@ -319,7 +319,7 @@ class Plotter:
         col4, col5, col6 = st.columns(3)
         with col4:
             with st.empty().container():
-                st.plotly_chart(self.plot_volume(self.buddy.candles[1].strackers[0].df.tail(15), "1m Volume"), use_container_width=True)#, key=f"1m volume {unique_suffix}")
+                st.plotly_chart(self.plot_volume(self.buddy.candles[1].trackers[0].df.tail(15), "1m Volume"), use_container_width=True)#, key=f"1m volume {unique_suffix}")
         with col5:
             with st.empty().container():
                 st.plotly_chart(self.plot_volume(self.buddy.candles[3].df.tail(15), "3m Volume"), use_container_width=True)#, key=f"3m volume {unique_suffix}")
