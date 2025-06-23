@@ -70,12 +70,49 @@ buddy = st.session_state.buddy
 # ------------------------ Streamlit UI Config ------------------------
 st.set_page_config(page_title="Trading Buddy", layout="wide")
 st.title("📈 ICT Trading Buddy Dashboard")
-tab1, = st.tabs(["Live View"])
+tab1, tab2 = st.tabs(["Tutorial", "Data simulation"])
 
 # ------------------------ Main Refreshing Logic ------------------------
+
 with tab1:
-    
-    st.subheader("Live Data Simulation")
+    st.subheader("Static")
+
+    st.image("Screenshots/candles.png", caption="Candles", use_column_width=True)
+    st.write("1m, 3m and 5m candles update every 20 sec. Last price shown dashed in blue.")
+
+    st.image("Screenshots/volume_pic.png", caption="Volume", use_column_width=True)
+    st.write("1m, 3m and 5m candle volumes (update every 20 sec).")
+
+    st.image("Screenshots/ict.png", caption="Inner Circle Trading Indicators", use_column_width=True)
+    st.write(
+        """Order Blocks are zones on a chart where large institutions have placed significant buy or sell orders, often marking the origin of a strong price move. These areas are likely to act as support or resistance when price revisits them.
+
+        Liquidity Sweeps happen when price spikes beyond a recent high or low, triggering stop-loss orders or attracting breakout traders. These moves are often followed by a sharp reversal, as smart money uses the sweep to fill their positions.
+
+        Fair Value Gaps (FVGs) are imbalances in price action where a candle moves so quickly that one side of the order book is skipped, leaving a gap between the high of one candle and the low of the next. Price often returns to these gaps to rebalance liquidity.""")
+
+    st.image("Screenshots/speedometers.png", caption="Speedometers", use_column_width=True)
+    st.write(
+        """Recommendation Strength – Shows the aggregated trade signal score from all indicators, where +10 is a strong long and -10 is a strong short.
+
+        ATR – Displays the Average True Range, a volatility measure showing the average range of recent candles.
+
+        Pressure (Bid size - Ask size) – Measures real-time order book pressure, where negative values suggest more selling pressure.
+
+        VWAP – Assesses price in relation to the Volume-Weighted Average Price.
+
+        EMA – Compares short and long Exponential Moving Averages to determine trend direction.
+
+        Session Momentum – Reflects price movement strength within the current trading session.
+
+        Stochastic RSI – Evaluates the relative position of RSI to detect overbought/oversold conditions.
+
+        RSI – The Relative Strength Index indicates trend strength and potential reversals.
+
+        FV Dislocation – Measures deviation from fair value using gaps in pricing.""")
+
+with tab2:
+    st.subheader("Live")
 
     # Short loop to update a few times before refreshing
     for i in range(9):
@@ -84,3 +121,4 @@ with tab1:
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
+
