@@ -77,13 +77,13 @@ tab1, tab2 = st.tabs(["Tutorial", "Data simulation"])
 with tab1:
     st.subheader("Static")
 
-    st.image("Screenshots/candles.png", caption="Candles", use_column_width=True)
+    st.image("Screenshots/candles.png", caption="Candles", use_container_width=True)
     st.write("1m, 3m and 5m candles update every 20 sec. Last price shown dashed in blue.")
 
-    st.image("Screenshots/volume_pic.png", caption="Volume", use_column_width=True)
+    st.image("Screenshots/volume_pic.png", caption="Volume", use_container_width=True)
     st.write("1m, 3m and 5m candle volumes (update every 20 sec).")
 
-    st.image("Screenshots/ict.png", caption="Inner Circle Trading Indicators", use_column_width=True)
+    st.image("Screenshots/ict.png", caption="Inner Circle Trading Indicators", use_container_width=True)
     st.write(
         """Order Blocks are zones on a chart where large institutions have placed significant buy or sell orders, often marking the origin of a strong price move. These areas are likely to act as support or resistance when price revisits them.
 
@@ -91,7 +91,7 @@ with tab1:
 
         Fair Value Gaps (FVGs) are imbalances in price action where a candle moves so quickly that one side of the order book is skipped, leaving a gap between the high of one candle and the low of the next. Price often returns to these gaps to rebalance liquidity.""")
 
-    st.image("Screenshots/speedometers.png", caption="Speedometers", use_column_width=True)
+    st.image("Screenshots/speedometers.png", caption="Speedometers", use_container_width=True)
     st.write(
         """Recommendation Strength – Shows the aggregated trade signal score from all indicators, where +10 is a strong long and -10 is a strong short.
 
