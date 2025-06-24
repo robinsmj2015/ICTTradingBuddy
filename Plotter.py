@@ -304,7 +304,7 @@ class Plotter:
         fig.update_layout(
             title=title,
             xaxis=dict(visible=False),
-            yaxis=dict(autorange=False, range=[min_price, max_price], title='Price', tickmode='linear', dtick=2),
+            yaxis=dict(autorange=False, range=[min_price, max_price], title='Price', tickmode='linear', nticks=10),
             height=500,
             margin=dict(l=20, r=40, t=40, b=20)
         )
