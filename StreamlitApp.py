@@ -35,7 +35,7 @@ if st.session_state.cold_start:
     st.warning("⚠️ Session was reset — dashboard restarted. Please see the tutorial tab while data loads.")
 
 
-st_autorefresh(interval=20 * 1000, key="refresh")  # every 10 seconds
+st_autorefresh(interval=30 * 1000, key="refresh")  # every 20 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -78,11 +78,11 @@ tab1, tab2 = st.tabs(["Tutorial: Static", "Data simulation: Live"])
 with tab1:
 
     st.subheader("Candles")
-    st.write("1m, 3m and 5m candles update every 20 sec. Last price shown dashed in blue.")
+    st.write("1m, 3m and 5m candles update every 30 sec. Last price shown dashed in blue.")
     st.image("Screenshots/candles.png", caption="Candles", use_container_width=True)
 
     st.subheader("Volume")
-    st.write("1m, 3m and 5m candle volumes (update every 20 sec).")
+    st.write("1m, 3m and 5m candle volumes (update every 30 sec).")
     st.image("Screenshots/volume_pic.png", caption="Volume", use_container_width=True)
 
     st.subheader("Inner Circle Trading Indicators")
@@ -107,7 +107,7 @@ with tab1:
 with tab2:
     for i in range(9):
         process_symbol(buddy, i)
-        time.sleep(2.1)
+        time.sleep(2)
 
     with open("buddy.pkl", "wb") as f:
             pickle.dump(buddy, f)
