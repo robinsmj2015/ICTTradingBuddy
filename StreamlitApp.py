@@ -35,7 +35,7 @@ if st.session_state.cold_start:
     st.warning("⚠️ Session was reset — dashboard restarted. Please see the tutorial tab while data loads.")
 
 
-st_autorefresh(interval=30 * 1000, key="refresh")  # every 20 seconds
+st_autorefresh(interval=30 * 1000, key="refresh")  # every 30 seconds
 
 
 # --------------------------------- Reset at midnight ------------------------------
@@ -79,17 +79,17 @@ with tab1:
 
     st.subheader("Candles")
     st.write("1m, 3m and 5m candles update every 30 sec. Last price shown dashed in blue.")
-    st.image("Screenshots/candles.png", caption="Candles", use_container_width=True)
+    st.image("Screenshots/candles.png", use_container_width=True)
 
     st.subheader("Volume")
     st.write("1m, 3m and 5m candle volumes (update every 30 sec).")
-    st.image("Screenshots/volume_pic.png", caption="Volume", use_container_width=True)
+    st.image("Screenshots/volume_pic.png", use_container_width=True)
 
     st.subheader("Inner Circle Trading Indicators")
     st.write("Order Blocks are zones on a chart where large institutions have placed significant buy or sell orders, often marking the origin of a strong price move. These areas are likely to act as support or resistance when price revisits them.")
     st.write("Liquidity Sweeps happen when price spikes beyond a recent high or low, triggering stop-loss orders or attracting breakout traders. These moves are often followed by a sharp reversal, as smart money uses the sweep to fill their positions.")
     st.write("Fair Value Gaps (FVGs) are imbalances in price action where a candle moves so quickly that one side of the order book is skipped, leaving a gap between the high of one candle and the low of the next. Price often returns to these gaps to rebalance liquidity.")
-    st.image("Screenshots/ict.png", caption="Inner Circle Trading Indicators", use_container_width=True)
+    st.image("Screenshots/ict.png", use_container_width=True)
 
     st.subheader("Speedometers")
     st.write("**Recommendation Strength** – Shows the aggregated trade signal score from all indicators, where +10 is a strong long and -10 is a strong short.")
@@ -101,7 +101,7 @@ with tab1:
     st.write("**Stochastic RSI** – Evaluates the relative position of RSI to detect overbought/oversold conditions.")
     st.write("**RSI** – The Relative Strength Index indicates trend strength and potential reversals.")
     st.write("**FV Dislocation** – Measures deviation from fair value using gaps in pricing.")
-    st.image("Screenshots/speedometers.png", caption="Speedometers", use_container_width=True)
+    st.image("Screenshots/speedometers.png", use_container_width=True)
 
 # Live
 with tab2:
