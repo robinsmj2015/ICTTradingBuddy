@@ -95,13 +95,17 @@ with tab1:
     st.write("**Recommendation Strength** – Shows the aggregated trade signal score from all indicators, where +10 is a strong long and -10 is a strong short.")
     st.write("**ATR** – Displays the Average True Range, a volatility measure showing the average range of recent candles.")
     st.write("**Pressure (Bid size - Ask size)** – Measures real-time order book pressure, where negative values suggest more selling pressure.")
+    st.image("Screenshots/big3.png", use_container_width=True)
+
+    
+    st.subheader("Other indicators")
     st.write("**VWAP** – Assesses price in relation to the Volume-Weighted Average Price.")
     st.write("**EMA** – Compares short and long Exponential Moving Averages to determine trend direction.")
     st.write("**Session Momentum** – Reflects price movement strength within the current trading session.")
     st.write("**Stochastic RSI** – Evaluates the relative position of RSI to detect overbought/oversold conditions.")
     st.write("**RSI** – The Relative Strength Index indicates trend strength and potential reversals.")
     st.write("**FV Dislocation** – Measures deviation from fair value using gaps in pricing.")
-    st.image("Screenshots/speedometers.png", use_container_width=True)
+    st.image("Screenshots/little_inds.png", use_container_width=True)
 
 # Live
 with tab2:

@@ -1,0 +1,15 @@
+# Ignore virtual environments
+.venv
+__pycache__/
+
+
+# Ignore unused directories
+archive/
+not_implemented/
+
+# Ignore misc
+*.pyc
+*.pkl
+*.log
+.DS_Store
+*.env
