@@ -38,7 +38,9 @@ class LiquiditySweep:
         Returns:
             List[float]: Sorted liquidity pool levels based on proximity and direction.
         """
+        lookback = min(lookback, len(df))
         prices = df.tail(lookback).copy()
+
         levels = prices["low"] if direction == "long" else prices["high"]
         pools = []
 
