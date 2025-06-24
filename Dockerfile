@@ -13,7 +13,7 @@ RUN pip install --upgrade pip \
 
 # Expose port for Render
 ENV PORT=8080
-EXPOSE 8080k
+EXPOSE 8080
 
 # Run your Streamlit app
 CMD ["streamlit", "run", "StreamlitApp.py", "--server.port=8080", "--server.headless=true"]
