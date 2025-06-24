@@ -56,6 +56,17 @@ COPY . /app
 RUN pip install -r requirements.txt
 CMD ["streamlit", "run", "StreamlitApp.py"]
 
+📚 References & Attribution
+This project incorporates concepts inspired by Michael J. Huddleston, also known as The Inner Circle Trader (ICT).
+For official educational material, please visit:
+🔗 TheInnerCircleTrader.com
+
+This project is not affiliated with or endorsed by ICT or Michael J. Huddleston.
+
 ---
 
 📌 Built and maintained by Michael J Robinson as part of an advanced trading system engineering project.
+
+
+
+
