@@ -77,21 +77,21 @@ tab1, tab2 = st.tabs(["Tutorial: Static", "Data simulation: Live"])
 # tutorial
 with tab1:
 
-    st.subheader("Candles", use_container_width=True)
+    st.subheader("Candles")
     st.write("1m, 3m and 5m candles update every 20 sec. Last price shown dashed in blue.")
     st.image("Screenshots/candles.png", caption="Candles", use_container_width=True)
 
-    st.subheader("Volume", use_container_width=True)
+    st.subheader("Volume")
     st.write("1m, 3m and 5m candle volumes (update every 20 sec).")
     st.image("Screenshots/volume_pic.png", caption="Volume", use_container_width=True)
 
-    st.subheader("Inner Circle Trading Indicators", use_container_width=True)
+    st.subheader("Inner Circle Trading Indicators")
     st.write("Order Blocks are zones on a chart where large institutions have placed significant buy or sell orders, often marking the origin of a strong price move. These areas are likely to act as support or resistance when price revisits them.")
     st.write("Liquidity Sweeps happen when price spikes beyond a recent high or low, triggering stop-loss orders or attracting breakout traders. These moves are often followed by a sharp reversal, as smart money uses the sweep to fill their positions.")
     st.write("Fair Value Gaps (FVGs) are imbalances in price action where a candle moves so quickly that one side of the order book is skipped, leaving a gap between the high of one candle and the low of the next. Price often returns to these gaps to rebalance liquidity.")
     st.image("Screenshots/ict.png", caption="Inner Circle Trading Indicators", use_container_width=True)
 
-    st.subheader("Speedometers", use_container_width=True)
+    st.subheader("Speedometers")
     st.write("**Recommendation Strength** – Shows the aggregated trade signal score from all indicators, where +10 is a strong long and -10 is a strong short.")
     st.write("**ATR** – Displays the Average True Range, a volatility measure showing the average range of recent candles.")
     st.write("**Pressure (Bid size - Ask size)** – Measures real-time order book pressure, where negative values suggest more selling pressure.")
