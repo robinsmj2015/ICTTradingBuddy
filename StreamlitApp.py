@@ -107,7 +107,7 @@ with tab1:
     st.write("**FV Dislocation** – Measures deviation from fair value using gaps in pricing.")
     st.image("Screenshots/little_inds.png", use_container_width=True)
 
-    st.markdown("""📚 References & Attribution \nThis project incorporates concepts inspired by Michael J. Huddleston, also known as The Inner Circle Trader (ICT).\nFor official educational material, please visit:
+    st.markdown("""📚 References & Attribution: \nThis project incorporates concepts inspired by Michael J. Huddleston, also known as The Inner Circle Trader (ICT).\nFor official educational material, please visit:
 🔗 TheInnerCircleTrader.com\n\nThis project is not affiliated with or endorsed by ICT or Michael J. Huddleston.""")
 
 # Live
