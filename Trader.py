@@ -85,7 +85,6 @@ class Trader:
 
             exit_trade = False
             
-
             if elapsed >= self.timeout:
                 exit_trade = True
             elif self.position == "long" and current_price >= self.tp:

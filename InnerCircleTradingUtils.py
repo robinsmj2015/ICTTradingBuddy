@@ -100,6 +100,8 @@ class InnerCircleTradingUtils:
 
     
     def get_nearest_ob_range(self, order_blocks, last_price, direction):
+        """ High and low order blocks closest to price.
+        """
 
         return self.order_blocks._get_nearest_ob_range_(order_blocks, last_price, direction)
         

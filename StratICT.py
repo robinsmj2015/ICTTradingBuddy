@@ -37,8 +37,6 @@ class StratICT(Strategy):
     def make_rec(self):
         """
         Generates a trade recommendation using ICT principles.
-        
-       
         """
 
         candle_manager = self.buddy.candles[1]
@@ -166,8 +164,6 @@ class StratICT(Strategy):
                 return []
             return [{"low": min(lows), "high": max(highs)}]
 
-
-
     def zones_close(self, z1, z2):
         """
         Determines if two zones are close enough to merge based on the tick threshold.
@@ -185,7 +181,6 @@ class StratICT(Strategy):
         z2_low = z2.get("low", z2.get("start"))
         z2_high = z2.get("high", z2.get("end"))
         return abs(z1_low - z2_low) <= self.ict_merge_threshold * 0.25 and abs(z1_high - z2_high) <= self.ict_merge_threshold * 0.25
-
 
     def score_volume_spike(self, df) -> int:
         """

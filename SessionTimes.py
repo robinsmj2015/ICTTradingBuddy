@@ -1,6 +1,7 @@
 from datetime import datetime, time
 import pytz
 
+
 class SessionTimes:
     """
     Provides methods to classify trading sessions and assign
@@ -62,5 +63,5 @@ class SessionTimes:
         elif time(14, 0) < t <= time(16, 15):
             return 6
         else:
-            return 2  # Outside RTH or illiquid
+            return 2 
 
